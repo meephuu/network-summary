@@ -1,0 +1,260 @@
+Link layer ส่ง datagram จาก node หนึ่งไป node ที่**ติดกันทางกายภาพ**ผ่านลิงก์เดียว (ทีละ hop) · ส่วนที่ต้อง**คำนวณ**คือ parity, checksum, CRC, efficiency ของ ALOHA / CSMA/CD · ส่วนที่ต้อง**ไล่ตาม**คือ ARP, switch self-learning, การส่งข้าม subnet และ a day in the life
+
+## บริการของ link layer
+
+คำศัพท์: host และเราเตอร์ = **node** · ช่องทางที่ต่อ node ติดกัน = **link** · packet ของ layer 2 = **frame** (ห่อ datagram) · datagram หนึ่งตัวอาจผ่านหลาย link protocol (WiFi ช่วงแรก, Ethernet ช่วงถัดไป) เหมือนเดินทางด้วย limo → เครื่องบิน → รถไฟ
+
+| บริการ | ความหมาย |
+|---|---|
+| **Framing, link access** | ห่อ datagram เป็น frame (header + trailer) คุมการใช้ช่องร่วม ใช้ **MAC address** |
+| **Reliable delivery** | ไม่ค่อยใช้บนสาย (error ต่ำ) แต่ใช้บน wireless (error สูง) |
+| **Flow control** | คุมจังหวะระหว่าง node ติดกัน |
+| **Error detection / correction** | ตรวจเจอแล้วทิ้ง/ขอใหม่ หรือแก้เองเลย |
+| **Half / full duplex** | half = ส่งได้ทั้งสองฝั่งแต่ไม่พร้อมกัน |
+
+<Tip>
+
+ทำไมมี reliability ทั้งที่ link และ end-to-end? บนลิงก์ไร้สายที่ error บ่อย แก้ที่ลิงก์เร็วกว่ารอ TCP ส่งใหม่ทั้งเส้น (performance enhancement ตาม end-to-end argument) · link layer อยู่ใน **NIC** (network interface card) ทำทั้ง link + physical
+
+</Tip>
+
+## Error detection
+
+ฝั่งส่งเติม **EDC** (error detection and correction bits) ฝั่งรับตรวจว่าเข้ากันไหม · **ตรวจได้ไม่ 100%** ยิ่ง EDC ยาวยิ่งดี
+
+### Parity
+
+- **Single bit parity:** เติม 1 บิตให้จำนวนเลข 1 เป็นคู่ → ตรวจได้แค่ error **จำนวนคี่**บิต แก้ไม่ได้
+- **Two-dimensional parity:** parity ทุกแถวและทุกคอลัมน์ ผิด 1 บิต → แถวกับคอลัมน์ที่ผิดตัดกันตรงบิตนั้น → **ตรวจและแก้ single-bit error ได้เอง**
+
+<ParityDemo />
+
+### Internet checksum
+
+มองข้อมูลเป็นเลข 16 บิต บวกแบบ **one's complement** (ตัวทดที่ล้นบิตบนสุด **wraparound** กลับมาบวกบิตล่างสุด) แล้ว **checksum = กลับบิตผลรวม**
+
+<ChecksumCalc />
+
+### CRC (Cyclic Redundancy Check)
+
+แรงกว่า ใช้จริงใน **Ethernet และ 802.11 WiFi** · D = ข้อมูล d บิต · **G** = generator r+1 บิต (ทั้งสองฝั่งรู้) · **R** = CRC r บิต ที่ทำให้ ⟨D,R⟩ หาร G ลงตัว (mod 2)
+
+$$
+R = \text{remainder}\left[\frac{D \cdot 2^r}{G}\right]
+$$
+
+หารแบบ **modulo-2: ลบด้วย XOR ไม่มียืม ไม่มีทด** · ฝั่งรับเอา ⟨D,R⟩ หาร G ถ้า**เศษไม่เป็น 0 = มี error** · ตรวจได้ทุก burst error ที่ยาว **น้อยกว่า r+1 บิต**
+
+<CrcCalc />
+
+<Tip>
+
+CRC ที่ใช้บ่อย: G ยาว 9 / 17 / 33 / 65 บิต = CRC-8 / 16 / 32 / 64 (เรียกตามความยาวเศษ ซึ่งสั้นกว่า G หนึ่งบิต)
+
+</Tip>
+
+## Multiple access protocols
+
+ลิงก์มี 2 แบบ: **point-to-point** (host กับ switch) และ **broadcast** (สื่อร่วม: Ethernet แบบเก่า, WiFi, 4G/5G, ดาวเทียม) · บน broadcast ถ้าส่งพร้อมกัน = **collision** · multiple access protocol = distributed algorithm ที่ตัดสินว่าใครส่งได้เมื่อไร โดยประสานงานผ่านช่องเดียวกันนั้นเอง
+
+<Def title="protocol ในอุดมคติ (channel เร็ว R)">
+
+1. ส่งคนเดียวได้เต็ม **R** · 2. M node ส่ง ได้คนละ **R/M** · 3. decentralized เต็มที่ (ไม่มี node พิเศษ, ไม่ต้อง sync นาฬิกา) · 4. เรียบง่าย
+
+</Def>
+
+| กลุ่ม | แนวคิด | ตัวอย่าง | load สูง / ต่ำ |
+|---|---|---|---|
+| **Channel partitioning** | แบ่งเวลา / ความถี่ / code ให้ใช้คนเดียว | TDMA, FDMA | ดีตอน load สูง · ตอน load ต่ำเสียเปล่า |
+| **Random access** | ส่งเต็ม R ยอมชนแล้วค่อย recover | ALOHA, CSMA, CSMA/CD, CSMA/CA | ดีตอน load ต่ำ · load สูงชนเยอะ |
+| **Taking turns** | ผลัดกันส่ง | polling, token passing | พยายามได้ข้อดีทั้งสอง |
+
+<ChannelPartition />
+
+### ALOHA
+
+**Slotted ALOHA:** frame ขนาดเท่ากัน เวลาแบ่งเป็น slot ส่งได้แค่ต้น slot (ต้อง sync) · มี frame ใหม่ส่ง slot ถัดไป · ชนแล้ว**ส่งซ้ำแต่ละ slot ด้วยความน่าจะเป็น p** จนสำเร็จ · **Pure ALOHA** ไม่ต้อง sync ส่งทันที แต่ช่วงเสี่ยงชนกว้างเป็น 2 เท่า ([t₀−1, t₀+1])
+
+<MacEfficiency />
+
+<Def title="efficiency (N → ∞)">
+
+slotted ALOHA = $1/e \approx 37\%$ · pure ALOHA = $1/(2e) \approx 18\%$ · CSMA/CD = $\dfrac{1}{1 + 5\,t_{prop}/t_{trans}}$
+
+</Def>
+
+### CSMA และ CSMA/CD
+
+- **CSMA:** ฟังก่อนพูด ว่างค่อยส่ง ไม่ว่างก็รอ · **ยังชนได้** เพราะ **propagation delay** (อีกฝั่งยังไม่ได้ยินว่าเราเริ่มส่ง) ยิ่งไกลยิ่งชนง่าย
+- **CSMA/CD:** ตรวจเจอการชนแล้ว**หยุดส่งทันที** ลดเวลาที่เสีย (ทำง่ายบนสาย ยากบน wireless)
+
+**Ethernet CSMA/CD:** NIC สร้าง frame → ฟัง channel (ว่างส่ง, ไม่ว่างรอ) → ส่งครบไม่ชน = เสร็จ → ถ้าเจอคนอื่นส่ง **หยุด + ส่ง jam signal** → **binary backoff** แล้ววนไปฟังใหม่
+
+<BackoffSim />
+
+- **CSMA/CA** (collision avoidance) ใช้ใน **802.11 WiFi** เพราะบน wireless ตรวจจับการชนยาก
+- **Polling:** master เชิญทีละตัว (เช่น **Bluetooth**) · **Token passing:** ถือ token ถึงส่งได้ · ทั้งคู่มี overhead, latency, single point of failure
+- **Cable (DOCSIS)** ใช้ทั้ง 3 แบบ: FDM แบ่ง channel · ขาขึ้นใช้ TDM ตาม MAP frame · ขอ slot แบบ random access
+
+## MAC address และ ARP
+
+| | IP address | MAC address |
+|---|---|---|
+| ขนาด | 32 บิต | **48 บิต** เขียนฐาน 16 เช่น 1A-2F-BB-76-09-AD |
+| Layer | network ใช้ forward ข้ามเครือข่าย | link ใช้ในท้องถิ่น ส่ง frame ใน subnet เดียวกัน |
+| มาจาก | ขึ้นกับ subnet (ย้ายไม่ได้) | ฝังใน ROM ของ NIC · **flat, portable** (IEEE แจก) |
+| เปรียบ | ที่อยู่ไปรษณีย์ | เลขประจำตัวที่ติดตัวไปตลอด |
+
+**ARP:** รู้ IP แต่ไม่รู้ MAC จะหาอย่างไร · ทุก node มี **ARP table** ⟨IP; MAC; TTL⟩ (ลืมเองใน ~20 นาที)
+
+1. A **broadcast ARP query** (dest MAC **FF-FF-FF-FF-FF-FF**) ถามหา MAC ของ IP ของ B
+2. B ตอบ **ARP response** กลับหา A ตรงๆ (**unicast**)
+3. A จด B ลง ARP table · plug-and-play ไม่ต้องตั้งค่า
+
+<Figure src="arp" caption="A broadcast ARP query ทุก node ใน LAN ได้รับ แต่เฉพาะ B ที่ตอบ" width={640} />
+
+<CrossSubnet />
+
+## Ethernet
+
+LAN แบบมีสายที่ครองตลาด ง่าย ถูก ตามทันความเร็วตลอด (10 Mbps – 400 Gbps) · topology เปลี่ยนจาก **bus** (ทุก node อยู่ collision domain เดียว) → **switched** (แต่ละซี่แยกกัน ไม่ชน)
+
+<EthernetFrame />
+
+<Warn>
+
+Ethernet เป็น **connectionless** (ไม่มี handshake) และ **unreliable** (ไม่ส่ง ACK/NAK) frame ที่ทิ้งไปกู้คืนได้ก็ต่อเมื่อ layer บนมี rdt เช่น TCP · มาตรฐาน 802.3 มี MAC protocol และ frame format เดียวกัน ต่างกันที่ความเร็วและสื่อ (ทองแดง / fiber)
+
+</Warn>
+
+## Ethernet switch
+
+อุปกรณ์ link layer แบบ **store-and-forward** ดู MAC ปลายทางแล้วส่งเฉพาะลิงก์ที่ต้องการ · **transparent** (host ไม่รู้ว่ามี switch) · **plug-and-play, self-learning** · แต่ละลิงก์เป็น collision domain ของตัวเอง → **ไม่มี collision, full duplex** (A→A' กับ B→B' ส่งพร้อมกันได้ แต่ A→A' กับ C→A' ไม่ได้)
+
+<Def title="เมื่อ switch ได้ frame">
+
+1. **จำ** interface ที่ frame เข้ามา + **source MAC** (self-learning)
+2. ค้นตารางด้วย **destination MAC**
+3. เจอ: ปลายทางอยู่ฝั่งเดียวกับที่เข้ามา → **drop** · ไม่ใช่ → **forward** ลิงก์เดียว
+4. ไม่เจอ → **flood** ทุก interface ยกเว้นขาที่เข้ามา
+
+</Def>
+
+<SwitchLearning />
+
+| | Router | Switch |
+|---|---|---|
+| Layer | network (ดู IP header) | link (ดู Ethernet header) |
+| ทำงานแบบ | store-and-forward | store-and-forward |
+| สร้างตารางด้วย | routing algorithm + IP | flooding + self-learning + MAC |
+
+## VLAN
+
+ปัญหา LAN ใหญ่ที่เป็น broadcast domain เดียว: broadcast traffic (ARP, DHCP, MAC ที่ไม่รู้จัก) วิ่งทั่ว LAN → efficiency, security, privacy แย่ · และจัดการยาก (คน CS ย้ายไปนั่งตึก EE แต่อยากอยู่เครือข่าย CS)
+
+**Port-based VLAN:** จัดกลุ่มพอร์ตด้วย software ให้ switch ตัวเดียวทำงานเหมือน**หลาย virtual switch** · traffic isolation · ย้ายพอร์ตได้ dynamic · **ข้าม VLAN ต้องผ่าน routing**
+
+<Figure src="vlan" caption="พอร์ต 1–8 = EE, 9–15 = CS บน switch ตัวเดียว ทำงานเหมือน switch 2 ตัว" width={480} />
+
+**VLAN ข้ามหลาย switch** ใช้ **trunk port** และ **802.1Q** เพิ่ม tag หลัง source address: TPID 81-00 + **VLAN ID 12 บิต** + priority 3 บิต · **CRC คำนวณใหม่** (ลองเปิดในเครื่องมือ Ethernet frame) · **EVPN/VXLAN** ห่อ Ethernet frame ใน UDP/IP เชื่อม LAN ข้ามสถานที่ = layer 2 overlay บน layer 3
+
+## MPLS
+
+forward ด้วย **label ความยาวคงที่** แทน longest prefix match (ยืมแนวคิด virtual circuit) · MPLS header อยู่ระหว่าง Ethernet กับ IP header · **label-switched router** ดูแค่ label · เลือกเส้นตาม **source + destination** ได้ (traffic engineering) มี **fast reroute** · signaling ด้วย **RSVP-TE** · ทุก hop **สลับ label** จน hop สุดท้ายถอดออก
+
+<Figure src="mpls-tables" caption="MPLS forwarding table: in label → out label + out interface · R4 ส่ง traffic ไป A กับ D คนละ label" width={560} />
+
+## Data center networking
+
+host หลักหมื่นถึงแสนอยู่ใกล้กัน ความท้าทาย: client มหาศาล, reliability, กระจาย load, เลี่ยงคอขวด
+
+<Figure src="datacenter" caption="Border routers → Tier-1 (core) → Tier-2 (aggregation) → Top of Rack (TOR) → server racks (20–40 blades)" />
+
+- **Multipath:** switch ต่อกันหนาแน่น → throughput ระหว่าง rack สูงขึ้น + reliability จาก redundancy
+- **Load balancer** (application-layer routing) กระจาย request ภายในและซ่อนโครงสร้างจาก client
+- นวัตกรรม: **RoCE** (RDMA over Converged Ethernet), **ECN** ใน congestion control (DCTCP, DCQCN), SDN อย่างกว้างขวาง, วาง service ที่เกี่ยวข้องไว้ rack ใกล้กัน
+
+<Figure src="datacenter-multipath" caption="เส้นแดงกับน้ำเงิน = 2 เส้นทางที่ไม่ทับกันระหว่าง rack 1 กับ 11" />
+
+## A day in the life of a web request
+
+ร้อยทุก layer เป็นเรื่องเดียว: นักศึกษาเสียบ laptop เข้าเครือข่ายมหาวิทยาลัย 68.80.2.0/24 (เราเตอร์เป็น DHCP server ด้วย) แล้วเปิด www.google.com · ก่อนส่ง HTTP ได้ต้องมี: IP ตัวเอง, IP + MAC ของ first-hop router, IP ของ web server, TCP connection
+
+<Figure src="day-in-life" caption="scenario: school network → Comcast (มี DNS server) → Google network" width={560} />
+
+<WebRequest />
+
+<Tip title="ทำไมลำดับเป็นแบบนี้">
+
+**ARP ก่อน DNS:** DNS query ก็ต้องส่งผ่านเราเตอร์ จึงต้องรู้ MAC ของเราเตอร์ก่อน · **DNS ก่อน TCP:** เปิด connection ต้องรู้ IP ปลายทาง · ทุกขั้นห่อลงทีละชั้นที่ฝั่งส่ง แกะขึ้นทีละชั้นที่ฝั่งรับ (demultiplex)
+
+</Tip>
+
+## สรุป + ควิซ
+
+| เรื่อง | จำ |
+|---|---|
+| Parity | 1D ตรวจได้ (คี่บิต) แก้ไม่ได้ · 2D แก้ single-bit ได้ |
+| Checksum | one's complement + wraparound แล้วกลับบิต |
+| CRC | R = เศษ D·2^r ÷ G (XOR) · รับ: เศษ ≠ 0 = error |
+| Efficiency | slotted 37% · pure 18% · CSMA/CD 1/(1+5a) |
+| Backoff | K ∈ \{0..2^m−1\} × 512 bit times |
+| จับคู่ | CSMA/CD = Ethernet · CSMA/CA = WiFi · polling = Bluetooth |
+| ARP | query broadcast FF-FF-FF-FF-FF-FF · reply unicast |
+| ข้าม subnet | IP คงเดิม · MAC เปลี่ยนทุก hop |
+| Switch | learn จาก src MAC · ไม่รู้จัก flood · VLAN ID 12 บิต |
+| Web request | DHCP → ARP → DNS → TCP → HTTP |
+
+<Example title="ข้อ 1">
+
+D = 1101011011, G = 10011 หา CRC R
+
+<Solution>
+
+r = 4 → หาร 1101011011 0000 ด้วย 10011 แบบ XOR ได้เศษ **R = 1110** → ส่ง 1101011011 1110 (ลองกด preset "G ยาว 5 บิต" ในเครื่องมือ CRC ดูทีละขั้น)
+
+</Solution>
+
+</Example>
+
+<Example title="ข้อ 2">
+
+slotted ALOHA มี 4 node มีของส่งตลอด p เท่าไรได้ efficiency สูงสุด และได้เท่าไร?
+
+<Solution>
+
+$p^* = 1/N = 0.25$ · efficiency $= N p (1-p)^{N-1} = 4(0.25)(0.75)^3 = 0.4219 \approx 42\%$ (N มากขึ้นเข้าใกล้ 37%)
+
+</Solution>
+
+</Example>
+
+<Example title="ข้อ 3">
+
+switch ตารางว่าง A ส่งหา A' แล้ว A' ตอบ A ตารางเป็นอย่างไรและแต่ละครั้ง forward อย่างไร (A อยู่ interface 1, A' อยู่ 4)?
+
+<Solution>
+
+ครั้งแรก: จำ A → 1 · ไม่รู้จัก A' → **flood** · ครั้งที่สอง: จำ A' → 4 · รู้แล้วว่า A อยู่ 1 → **forward ลิงก์เดียว** · ตาราง: (A, 1), (A', 4)
+
+</Solution>
+
+</Example>
+
+<Example title="ข้อ 4">
+
+A ส่งให้ B ผ่านเราเตอร์ R frame ช่วง A → R มี MAC dest และ IP dest เป็นของใคร?
+
+<Solution>
+
+MAC dest = **MAC ของ R** (interface ฝั่ง A) · IP dest = **IP ของ B** · พอ R ส่งต่อ สร้าง frame ใหม่ MAC dest = B แต่ IP ยังเหมือนเดิม
+
+</Solution>
+
+</Example>
+
+<Tip title="ทบทวนรวบยอด">
+
+ไปหน้า **Cheat Sheet** ในเมนูเพื่อดูทุกอย่างที่ต้องจำจากบท 4–6 ในหน้าเดียว
+
+</Tip>

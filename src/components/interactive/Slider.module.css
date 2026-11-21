@@ -1,0 +1,14 @@
+.slider {
+  font-size: 14px;
+}
+.slider input {
+  display: block;
+  width: 100%;
+  margin-top: 2px;
+  accent-color: var(--accent);
+}
+.value {
+  font-weight: 600;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}

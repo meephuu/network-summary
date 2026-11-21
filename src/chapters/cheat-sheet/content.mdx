@@ -1,0 +1,100 @@
+ทุกอย่างที่ต้องจำจากบท 4–6 ในหน้าเดียว อ่านรอบสุดท้ายก่อนเข้าห้องสอบ · ต้องการตาราง subnet mask / ฐาน 2 / ICMP กดปุ่มมุมขวาล่าง
+
+## ตัวเลขที่ต้องจำ
+
+| อะไร | ค่า |
+|---|---|
+| IPv4 header | **20 bytes** (+ options) · TCP + IP overhead = 40 bytes |
+| IPv6 | address **128 บิต** · header **40 bytes คงที่** |
+| MAC address | **48 บิต** · broadcast **FF-FF-FF-FF-FF-FF** |
+| Private IP | **10/8, 172.16/12, 192.168/16** |
+| DHCP | UDP server **67** / client **68** · discover src **0.0.0.0** → **255.255.255.255** |
+| Fragment offset | หน่วยละ **8 bytes** |
+| ICMP | **8/0** echo req · **0/0** echo reply · **11/0** TTL expired · **3/3** port unreachable |
+| Slotted / pure ALOHA | **37% (1/e)** / **18% (1/2e)** |
+| Backoff | K ∈ \{0 … 2^m − 1\} รอ **K·512 bit times** |
+| 802.1Q | VLAN ID **12 บิต** · priority 3 บิต · TPID 81-00 |
+| RIP | แลก DV ทุก **30 วินาที** |
+| IPv4 หมด | ICANN แจกก้อนสุดท้ายปี **2011** |
+| FCC 2015 | no blocking · no throttling · no paid prioritization |
+
+## สูตรคำนวณ
+
+| เรื่อง | สูตร |
+|---|---|
+| CIDR /x | จำนวน address = $2^{32-x}$ · mask = x บิตแรกเป็น 1 |
+| แบ่ง block | ยืม k บิต → $2^k$ ก้อน ก้อนละ $/(x+k)$ |
+| Fragment | data/ชิ้น = $\lfloor (MTU-20)/8 \rfloor \times 8$ · offset = byte เริ่ม / 8 · length = data + 20 |
+| Buffer | $RTT \times C$ · หลาย flow: $RTT \times C / \sqrt{N}$ |
+| WFQ | $R \cdot w_i / \sum_j w_j$ |
+| Dijkstra | $D(v) = \min(D(v),\ D(w) + c(w,v))$ · O(n²) |
+| Bellman-Ford | $D_x(y) = \min_v \{ c(x,v) + D_v(y) \}$ |
+| CRC | $R = \text{remainder}[D \cdot 2^r / G]$ หารแบบ XOR |
+| Slotted ALOHA | $Np(1-p)^{N-1}$ · ดีสุดที่ $p = 1/N$ |
+| Pure ALOHA | $Np(1-p)^{2(N-1)}$ |
+| CSMA/CD | $1 / (1 + 5\, t_{prop}/t_{trans})$ |
+
+## ลำดับขั้นที่ต้องเรียงได้
+
+- **DHCP:** discover → offer → request → ACK (ทั้งหมด broadcast) ได้ IP + gateway + DNS + mask
+- **NAT:** ขาออกเปลี่ยน (src IP, port) → (NAT IP, port ใหม่) + จดตาราง · ขาเข้าเปลี่ยน dest กลับ
+- **ARP:** query broadcast → reply unicast → จดตาราง ⟨IP, MAC, TTL⟩
+- **Switch:** จำ src MAC + interface → ค้น dst → เจอ: forward / drop (ฝั่งเดียวกัน) · ไม่เจอ: flood
+- **ข้าม subnet:** frame A→R (MAC dest = R) → R สร้าง frame ใหม่ R→B (MAC dest = B) · IP เหมือนเดิมตลอด
+- **Traceroute:** UDP TTL = 1, 2, 3 … (ชุดละ 3) → เราเตอร์ตอบ 11/0 → ปลายทางตอบ 3/3 → หยุด
+- **SDN ลิงก์เสีย:** port status → อัปเดต link status → เรียก Dijkstra app → คำนวณ route → คำนวณ flow table → ติดตั้งผ่าน OpenFlow
+- **BGP route selection:** local preference → AS-PATH สั้นสุด → NEXT-HOP ใกล้สุด (hot potato) → อื่นๆ
+- **Web request:** **DHCP → ARP → DNS → TCP → HTTP**
+- **CSMA/CD:** ฟัง → ส่ง → ชน = หยุด + jam → binary backoff → ฟังใหม่
+
+## เทียบคู่ที่ออกบ่อย
+
+| คู่ | ฝั่งซ้าย | ฝั่งขวา |
+|---|---|---|
+| Forwarding / Routing | ในเราเตอร์ตัวเดียว · data plane · ns | ทั้งเส้น · control plane · ms |
+| Per-router / SDN | ทุกเราเตอร์คำนวณเอง | remote controller คำนวณให้ |
+| Input / Output queue | HOL blocking | drop policy + scheduling |
+| LS / DV | global, Dijkstra, O(n²) msgs, oscillation | เพื่อนบ้าน, Bellman-Ford, count-to-infinity, black-holing |
+| Intra / Inter-AS | RIP, EIGRP, OSPF · เน้น performance | BGP · policy สำคัญกว่า |
+| OSPF / BGP | flood LSA บน **IP** · Dijkstra | path vector บน **TCP** |
+| eBGP / iBGP | ระหว่าง AS | ภายใน AS |
+| Northbound / Southbound | controller ↔ app | controller ↔ switch (OpenFlow) |
+| IPv4 / IPv6 | มี checksum, fragmentation, options | ตัดทิ้งทั้ง 3 · flow label |
+| IP / MAC | 32 บิต, layer 3, ย้ายไม่ได้ | 48 บิต, layer 2, flat portable |
+| Router / Switch | IP, routing algorithm | MAC, flooding + self-learning |
+| 1D / 2D parity | ตรวจได้ (คี่บิต) แก้ไม่ได้ | แก้ single-bit ได้ |
+| SNMP / NETCONF | SMI, ทีละเครื่อง, trap | YANG, RPC + XML บน TLS, atomic |
+
+## จับคู่ protocol
+
+| Protocol / เทคนิค | ใช้ที่ไหน |
+|---|---|
+| CSMA/CD | Ethernet (unslotted + binary backoff) |
+| CSMA/CA | 802.11 WiFi |
+| Polling | Bluetooth |
+| CRC | Ethernet, WiFi |
+| TCAM | longest prefix match ใน 1 clock cycle |
+| match + action | router (IP prefix) · switch (MAC) · firewall (IP+port) · NAT (rewrite IP+port) |
+| OpenFlow messages | ↓ features, configure, modify-state, packet-out · ↑ packet-in, flow-removed, port status |
+| BGP messages | OPEN, UPDATE, KEEPALIVE, NOTIFICATION |
+| Hierarchical OSPF | local router, area border, backbone, boundary router |
+| Data center | border → core (tier-1) → aggregation (tier-2) → TOR → rack |
+| MPLS | label คงที่ · สลับ label ทุก hop · RSVP-TE · fast reroute |
+
+## กับดักที่คนพลาด
+
+<Warn title="อ่านก่อนเข้าห้อง">
+
+- นับ subnet แล้ว**ลืมลิงก์ระหว่างเราเตอร์**
+- fragment **ลืมบวก header 20** และลืมว่า offset **หาร 8**
+- reassembly ทำที่**ปลายทางเท่านั้น** ไม่ใช่เราเตอร์กลางทาง
+- longest prefix: match หลายแถว **ไม่ใช่เลือกแถวแรก** แต่เลือก**ยาวสุด**
+- ใน tunnel IPv4 header src/dest = **ปลายท่อ (B, E)** ไม่ใช่ A, F
+- ข้าม subnet: frame แรก MAC dest = **router** ไม่ใช่ B
+- **ARP มาก่อน DNS** ใน a day in the life
+- Ethernet **ไม่ส่ง ACK** (unreliable, connectionless)
+- `*` ใน traceroute **ไม่ได้แปลว่าเส้นทางเสีย**
+- ICMP ถูกห่อใน IP จึงอยู่ **"เหนือ" IP**
+- 1D parity ผิด **2 บิต ตรวจไม่เจอ**
+
+</Warn>

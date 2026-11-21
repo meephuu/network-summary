@@ -1,0 +1,325 @@
+/* Shared styles for the networking widgets and diagrams. Colours come from the theme variables. */
+
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- bit strings ---------- */
+.bits {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.9;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+.bit {
+  display: inline-block;
+  width: 1.05em;
+  text-align: center;
+  border-radius: 3px;
+}
+.bitGap {
+  display: inline-block;
+  width: 0.6em;
+}
+.netBit {
+  background: color-mix(in srgb, var(--def) 26%, transparent);
+  color: var(--def);
+}
+.hostBit {
+  background: color-mix(in srgb, var(--ex) 18%, transparent);
+  color: var(--ex);
+}
+.dimBit {
+  color: color-mix(in srgb, var(--muted) 60%, transparent);
+}
+.badBit {
+  background: color-mix(in srgb, var(--warn) 30%, transparent);
+  color: var(--warn);
+}
+.clickBit {
+  cursor: pointer;
+}
+.clickBit:hover {
+  outline: 1px solid var(--accent);
+}
+
+/* ---------- compact tables inside widgets ---------- */
+.tbl {
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 8px 0;
+  width: 100%;
+}
+.tblWrap {
+  overflow-x: auto;
+}
+.tbl th,
+.tbl td {
+  border: 1px solid var(--border);
+  padding: 5px 8px;
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.tbl th {
+  background: var(--surface-2);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--muted);
+}
+.tbl td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.rowHit td {
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+.rowWin td {
+  background: color-mix(in srgb, var(--accent) 28%, transparent);
+  color: var(--text);
+  font-weight: 600;
+}
+.rowNew td {
+  animation: flash 0.9s ease;
+}
+.rowDim td {
+  opacity: 0.45;
+}
+@keyframes flash {
+  from {
+    background: color-mix(in srgb, var(--ex) 40%, transparent);
+  }
+}
+
+/* ---------- segmented toggle ---------- */
+.seg {
+  display: inline-flex;
+  flex-wrap: wrap;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--bg);
+}
+.seg.seg button {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 4px 12px;
+  font-size: 13.5px;
+  cursor: pointer;
+  color: var(--muted);
+}
+.seg.seg button + button {
+  border-left: 1px solid var(--border);
+}
+.seg.seg button[aria-pressed='true'] {
+  background: var(--accent);
+  color: #050505;
+  font-weight: 600;
+}
+
+/* ---------- stepper ---------- */
+.stepper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0;
+}
+.stepBtn {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+.stepBtn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.stepBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #050505;
+  font-weight: 600;
+}
+.primary:hover:not(:disabled) {
+  color: #050505;
+  filter: brightness(1.08);
+}
+.dots {
+  display: flex;
+  gap: 5px;
+  margin-left: 4px;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.dotOn {
+  background: var(--accent);
+}
+.stepNote {
+  background: var(--surface-2);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 15px;
+  min-height: 2.4em;
+}
+.stepNote b {
+  color: var(--accent);
+}
+
+/* ---------- inputs ---------- */
+.inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+  margin: 8px 0;
+  font-size: 14px;
+}
+.inputs input[type='text'],
+.inputs input[type='number'],
+.inputs select {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  min-width: 0;
+}
+.inputs input:focus,
+.inputs select:focus {
+  outline: 1px solid var(--accent);
+}
+.inputs label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.bad {
+  outline: 1px solid var(--warn) !important;
+}
+
+/* ---------- svg diagrams ---------- */
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 6px 0;
+  font-family: var(--font-sans);
+  user-select: none;
+}
+.svgScroll {
+  overflow-x: auto;
+}
+.svgScroll .svg {
+  min-width: 560px;
+}
+
+/* ---------- chips ---------- */
+.chip {
+  display: inline-block;
+  font-size: 12.5px;
+  padding: 1px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  margin: 2px 3px 2px 0;
+  white-space: nowrap;
+}
+.chipAcc {
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+  color: var(--accent);
+}
+.chipEx {
+  border-color: color-mix(in srgb, var(--ex) 60%, transparent);
+  color: var(--ex);
+}
+.chipWarn {
+  border-color: color-mix(in srgb, var(--warn) 60%, transparent);
+  color: var(--warn);
+}
+
+/* ---------- grid of small cards (packets, nodes, …) ---------- */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.pkt.pkt {
+  cursor: pointer;
+  display: inline-grid;
+  place-items: center;
+  min-width: 30px;
+  height: 30px;
+  padding: 0 6px;
+  border-radius: 7px !important;
+  font-weight: 600;
+  font-size: 14px;
+  border: 1px solid var(--border);
+}
+.pktHi.pktHi {
+  background: color-mix(in srgb, var(--def) 30%, transparent);
+  border-color: var(--def);
+  color: var(--def);
+}
+.pktLo.pktLo {
+  background: color-mix(in srgb, var(--ex) 22%, transparent);
+  border-color: var(--ex);
+  color: var(--ex);
+}
+.pktC.pktC {
+  background: color-mix(in srgb, var(--tip) 22%, transparent);
+  border-color: var(--tip);
+  color: var(--tip);
+}
+.pktOff.pktOff {
+  opacity: 0.25;
+}
+
+.twoCol {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 10px 18px;
+  align-items: start;
+}
+.label {
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  font-weight: 600;
+  margin: 6px 0 2px;
+}
+
+.tblWrap .tbl {
+  display: table;
+}
+
+/* phones: fit diagrams to the width instead of cropping them; segmented toggles wrap as rounded blocks */
+@media (max-width: 600px) {
+  .svgScroll .svg {
+    min-width: 0;
+  }
+  .seg {
+    border-radius: 12px;
+  }
+  .bits {
+    font-size: 12.5px;
+  }
+}

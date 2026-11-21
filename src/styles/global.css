@@ -1,0 +1,89 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-padding-top: 16px;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+select,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+code {
+  font-family: var(--font-mono);
+  background: var(--surface-2);
+  padding: 1px 6px;
+  border-radius: 6px;
+  font-size: 0.9em;
+}
+
+/* KaTeX: keep the hidden MathML from widening the page, let long display math scroll. */
+.katex {
+  position: relative;
+  font-size: 1.08em;
+}
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 4px 0;
+}
+
+.small {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* ---------- Scrollbars: thin, theme-coloured, hidden until you scroll ----------
+   Elements with .autohide-scroll keep their scrollbar transparent until the
+   useAutoHideScrollbar hook adds .is-scrolling (while scrolling, or when the
+   pointer is right at the scrollbar edge so it can still be dragged). */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scroll-thumb) transparent;
+}
+.autohide-scroll {
+  scrollbar-color: transparent transparent;
+}
+.autohide-scroll.is-scrolling {
+  scrollbar-color: var(--scroll-thumb) transparent;
+}
+.autohide-scroll.is-scrolling:hover {
+  scrollbar-color: var(--scroll-thumb-hover) transparent;
+}
+
+/* Fallback for browsers without scrollbar-color (older Safari) */
+@supports not (scrollbar-color: auto) {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--scroll-thumb);
+    border-radius: 999px;
+  }
+  .autohide-scroll::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+  .autohide-scroll.is-scrolling::-webkit-scrollbar-thumb {
+    background: var(--scroll-thumb);
+  }
+}

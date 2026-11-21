@@ -1,0 +1,12 @@
+/* Layout tokens. Colours (--bg, --accent, …) are NOT here: they are generated from the theme
+ * chosen in src/site.config.ts (see src/styles/themes.ts) and injected at startup. */
+:root {
+  --font-sans: 'Google Sans', system-ui, -apple-system, 'Segoe UI', 'Leelawadee UI', sans-serif;
+  --font-display: 'Instrument Serif', 'Google Sans', Georgia, serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Consolas, monospace;
+
+  --radius: 12px;
+  --radius-lg: 14px;
+  --sidebar-w: 280px;
+  --content-w: 820px;
+}

@@ -1,0 +1,46 @@
+.box {
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  border-left-width: 5px;
+}
+.title {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  margin-bottom: 2px;
+}
+.body > :first-child {
+  margin-top: 2px;
+}
+.body > :last-child {
+  margin-bottom: 0;
+}
+
+.def { border-left-color: var(--def); background: var(--def-soft); }
+.def .title { color: var(--def); }
+.ex { border-left-color: var(--ex); background: var(--ex-soft); }
+.ex .title { color: var(--ex); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.warn .title { color: var(--warn); }
+.tip { border-left-color: var(--tip); background: var(--tip-soft); }
+.tip .title { color: var(--tip); }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.chip {
+  font-size: 13px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.chip.def { color: var(--def); }
+.chip.ex { color: var(--ex); }
+.chip.warn { color: var(--warn); }
+.chip.tip { color: var(--tip); }

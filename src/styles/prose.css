@@ -1,0 +1,99 @@
+/* Typography for chapter content written in MDX. Scoped under .prose. */
+.prose {
+  counter-reset: section;
+  overflow-wrap: anywhere;
+}
+
+.prose h2 {
+  counter-increment: section;
+  font-size: 26px;
+  line-height: 1.35;
+  margin: 56px 0 8px;
+  scroll-margin-top: 16px;
+}
+.prose h2::before {
+  content: counter(section);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.45em;
+  line-height: 0;
+  color: var(--accent);
+  margin-right: 12px;
+}
+.prose h2[data-label]::before {
+  content: attr(data-label);
+}
+.prose h3 {
+  color: color-mix(in srgb, var(--text) 82%, var(--accent));
+}
+.prose strong {
+  color: color-mix(in srgb, var(--text) 70%, var(--accent));
+}
+.prose mark {
+  background: color-mix(in srgb, var(--accent) 26%, transparent);
+  color: inherit;
+  padding: 0 3px;
+  border-radius: 4px;
+}
+/* figures cropped from the lecture slides: white slides sit on a soft card */
+.prose figure {
+  margin: 18px 0;
+}
+.prose figure img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+  border-radius: 10px;
+  background: #fff;
+}
+.prose figcaption {
+  font-size: 13.5px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 6px;
+}
+
+.prose h3 {
+  font-size: 20px;
+  line-height: 1.4;
+  margin: 30px 0 6px;
+}
+
+.prose p {
+  margin: 10px 0;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 24px;
+}
+.prose li {
+  margin: 4px 0;
+}
+
+.prose table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 15px;
+}
+.prose th,
+.prose td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+  background: var(--surface);
+}
+.prose th {
+  background: var(--surface-2);
+  font-weight: 600;
+}
+.prose td .katex {
+  white-space: nowrap;
+}
+
+.prose strong {
+  font-weight: 600;
+}

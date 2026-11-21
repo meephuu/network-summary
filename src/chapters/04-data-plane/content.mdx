@@ -1,0 +1,357 @@
+บทนี้ตอบคำถามเดียว: **แพ็กเก็ตมาถึงเราเตอร์แล้ว เราเตอร์ทำอะไรกับมัน และส่งต่อไปทางไหน** (data plane) ส่วนคำถามว่าเส้นทางทั้งเส้นถูกคำนวณอย่างไร (control plane) อยู่บทที่ 5 · ส่วนที่ออกสอบเยอะสุดคือ **IP (subnet / CIDR / fragmentation / DHCP / NAT)**
+
+## ภาพรวม Network Layer
+
+Network layer พา segment จาก host ต้นทางไปถึง host ปลายทาง ผ่านเราเตอร์หลายตัว ฝั่งส่งห่อ segment เป็น **datagram** (ใส่ IP header) ฝั่งรับแกะออก ส่วน**เราเตอร์ทุกตัวมี network layer** ดู header ของทุก datagram แล้วย้ายจาก input port ไป output port ที่ถูก (เราเตอร์ไม่มี transport / application layer)
+
+<Compare>
+<CompareItem title="Forwarding · data plane">
+
+ย้ายแพ็กเก็ตจาก**ขาเข้าไปขาออก**ในเราเตอร์ตัวเดียว · เหมือน**เลี้ยวผ่านทางแยกหนึ่งแห่ง** · ทำด้วย hardware ระดับ **nanosecond** · ใช้ forwarding table
+
+</CompareItem>
+<CompareItem title="Routing · control plane">
+
+หา**เส้นทางทั้งเส้น**จากต้นทางไปปลายทาง · เหมือน**วางแผนทริปทั้งเส้น** · ทำด้วย software ระดับ **millisecond** · ผลลัพธ์คือการเติม forwarding table
+
+</CompareItem>
+</Compare>
+
+<Tip title="จำสั้นๆ">
+
+**control plane เขียนตาราง data plane ใช้ตาราง**
+
+</Tip>
+
+<PlanesDiagram />
+
+### Service model: best effort
+
+network layer ควรรับประกันอะไรบ้าง (ส่งถึงแน่, delay ต่ำ, เรียงลำดับ, bandwidth ขั้นต่ำ)? คำตอบของอินเทอร์เน็ตคือ **best effort = ไม่รับประกันอะไรเลย** (bandwidth / loss / order / timing = no ทั้งหมด) ขณะที่ ATM CBR หรือ Intserv รับประกันได้
+
+ทำไม best effort ถึงรอด: กลไกง่ายจึงติดตั้งได้ทั่วโลก · ถ้า bandwidth พอ แอป real-time ก็ "ดีพอ" · มี datacenter/CDN ใกล้ผู้ใช้ · TCP มี congestion control ปรับตัวเอง
+
+## ข้างในเราเตอร์
+
+เราเตอร์มี 4 ส่วน: **input ports → switching fabric → output ports** (data plane, hardware) และ **routing processor** (control plane, software) สไลด์เปรียบเป็นวงเวียน
+
+<Figure src="router-analogy" caption="ทางเข้า = input port, วงเวียน = switching fabric, ถนนออก = output port, ผู้จัดการสถานี = routing processor" />
+
+**Input port** ทำ 3 ขั้น: line termination (physical) → link layer protocol (แกะ frame) → **lookup / forwarding / queueing** ค้น forwarding table ที่เก็บในหน่วยความจำของ input port เอง (*decentralized switching*) เป้าหมายคือทำให้ทัน **line speed**
+
+- **Destination-based forwarding** (แบบดั้งเดิม): ดูแค่ IP ปลายทาง
+- **Generalized forwarding**: ดู header field อะไรก็ได้ (ส่วนสุดท้ายของบท)
+
+### Longest prefix matching
+
+forwarding table ไม่ได้เก็บ IP ทีละตัว แต่เก็บเป็น**ช่วง (prefix)** ที่อาจซ้อนกัน
+
+<Def title="กฎ">
+
+ถ้า IP ปลายทาง match ได้หลายแถว **เลือกแถวที่ prefix ยาวที่สุด** (เฉพาะเจาะจงที่สุดชนะ)
+
+</Def>
+
+<PrefixMatch />
+
+ใน hardware จริงใช้ **TCAM** ค้นได้ใน **1 clock cycle** ไม่ว่าตารางใหญ่แค่ไหน
+
+### Switching fabric
+
+ย้ายแพ็กเก็ตจาก input ไป output · ถ้ามี N input แต่ละตัวเร็ว R อยากได้ switching rate = **N×R**
+
+| ประเภท | หลักการ | ข้อจำกัด |
+|---|---|---|
+| **Memory** | รุ่นแรก CPU คัดลอกเข้า memory แล้วออก | แต่ละแพ็กเก็ตข้าม bus **2 ครั้ง** |
+| **Bus** | input → output ผ่าน bus ร่วม | **bus contention** ส่งได้ทีละตัว |
+| **Interconnection network** | crossbar, Clos, multistage ส่งหลายตัวพร้อมกัน | เร็วสุด (หั่นเป็น cell ขนาดคงที่ + หลาย plane ขนานกัน) |
+
+### คิวที่ input และ output
+
+**Input queueing** เกิดเมื่อ fabric ช้ากว่า input รวมกัน ปัญหาเด่นคือ **Head-of-the-Line (HOL) blocking**: แพ็กเก็ตหัวคิวติด ทำให้ตัวข้างหลังไปไม่ได้ ทั้งที่ output ที่มันจะไปว่างอยู่
+
+<Figure src="hol-blocking" caption="ซ้าย: แดง 2 ตัวแย่ง output เดียวกัน (output port contention) · ขวา: เขียวที่อยู่หลังแดงตัวที่รอ ไปไม่ได้ = โดน HOL block" width={640} />
+
+**Output queueing** (สไลด์เน้นว่า *really important*) เกิดเมื่อ fabric ส่งมาเร็วกว่าลิงก์ขาออก ต้องมี buffer และต้องเลือก 2 อย่าง:
+
+- **Drop policy** buffer เต็มทิ้งตัวไหน (**tail drop** ทิ้งตัวที่เพิ่งมา, ตาม **priority**, หรือ **marking** อย่าง ECN / RED เพื่อบอกว่าเริ่ม congest)
+- **Scheduling discipline** ส่งตัวไหนก่อน (ข้างล่าง)
+
+<BufferCalc />
+
+<Warn title="buffer มากไปก็ไม่ดี">
+
+คิวยาว → RTT ยาว → แอป real-time แย่ และ TCP ตอบสนองช้า (เจอบ่อยใน home router) หลักคิดคือ *ให้ลิงก์คอขวดยุ่งพอดี แต่ไม่เกิน*
+
+</Warn>
+
+### Packet scheduling
+
+<SchedulerSim />
+
+$$
+\text{WFQ:}\quad R_i \;\ge\; R \cdot \frac{w_i}{\sum_j w_j}
+$$
+
+<Example title="ตัวอย่าง WFQ">
+
+R = 10 Mbps มี 3 คลาส weight 1, 2, 2 คลาสแรกได้อย่างน้อยเท่าไร?
+
+<Solution>
+
+$R \cdot w_1/\sum w = 10 \cdot 1/5 = 2$ Mbps (อีก 2 คลาสได้คลาสละ 4 Mbps)
+
+</Solution>
+
+</Example>
+
+**Network neutrality** (sidebar): ISP ควรแบ่งทรัพยากรอย่างไร · 2015 US FCC Order มี 3 กฎ **no blocking, no throttling, no paid prioritization** · ประเด็นกฎหมาย: ISP เป็น telecommunications service (Title II, common carrier) หรือ information service (Title I)
+
+## IP datagram
+
+network layer ของอินเทอร์เน็ตมี 3 ส่วน: **IP protocol** · **routing protocols** (เติมตาราง, บทที่ 5) · **ICMP** (รายงาน error)
+
+<IpHeader />
+
+<Tip>
+
+field ที่ออกบ่อย: **TTL** (ลดทุก hop ถึง 0 ทิ้ง) · **upper layer** (TCP/UDP) · **header checksum** (คำนวณใหม่ทุก hop) · **ID / flag / offset** (fragmentation) · header ปกติ **20 bytes**
+
+</Tip>
+
+### Fragmentation / reassembly
+
+ลิงก์แต่ละชนิดมี **MTU** (frame ใหญ่สุด) ต่างกัน datagram ที่ใหญ่กว่า MTU ถูก**หั่น**ระหว่างทาง แล้ว**ประกอบกลับที่ปลายทางเท่านั้น**
+
+- **ID** เหมือนกันทุกชิ้น · **fragflag** 1 = ยังมีต่อ, 0 = ชิ้นสุดท้าย · **offset** นับ**หน่วยละ 8 bytes**
+- data ต่อชิ้น = MTU − 20 (ต้องหาร 8 ลงตัว) · ทุกชิ้นมี header 20 bytes ของตัวเอง
+
+<Fragmenter />
+
+<Example title="โจทย์สไลด์: 4000 bytes, MTU 1500">
+
+ได้กี่ชิ้น length / flag / offset เท่าไร?
+
+<Solution>
+
+data = 4000 − 20 = 3980 · ต่อชิ้น 1500 − 20 = 1480 → 3980 = 1480 + 1480 + 1020
+
+| ชิ้น | length | flag | offset |
+|---|---|---|---|
+| 1 | 1500 | 1 | 0 |
+| 2 | 1500 | 1 | 1480/8 = 185 |
+| 3 | 1040 | 0 | 2960/8 = 370 |
+
+</Solution>
+
+</Example>
+
+## IP addressing, subnet, CIDR
+
+- **IP address** = เลข 32 บิตที่ผูกกับ **interface** (ไม่ใช่กับเครื่อง) · เราเตอร์มีหลาย interface จึงมีหลาย IP
+- เขียนแบบ **dotted-decimal**: 223.1.1.1 = 11011111 00000001 00000001 00000001
+
+<Def title="Subnet">
+
+กลุ่ม interface ที่ติดต่อกันได้ตรงๆ **โดยไม่ผ่านเราเตอร์** · IP แบ่งเป็น **subnet part** (บิตซ้าย เหมือนกันทั้ง subnet) + **host part** (บิตที่เหลือ)
+
+</Def>
+
+**วิธีนับ subnet จากรูป:** ตัด interface ทุกอันออกจาก host/router จะเหลือ "เกาะ" แต่ละเกาะคือ 1 subnet
+
+<Figure src="subnets" caption="เราเตอร์ 3 ตัวต่อกันเป็นสามเหลี่ยม = 6 subnet (3 ฝั่ง host + 3 ลิงก์ระหว่างเราเตอร์ 223.1.7/24, 223.1.8/24, 223.1.9/24)" width={560} />
+
+<Warn>
+
+**ลิงก์ที่ต่อเราเตอร์กับเราเตอร์ก็นับเป็น subnet** จุดที่คนลืมบ่อยที่สุด
+
+</Warn>
+
+### CIDR
+
+**a.b.c.d/x** โดย x = จำนวนบิตของ subnet part (ยาวเท่าไหร่ก็ได้ ไม่ต้องเป็น /8 /16 /24)
+
+$$
+\#\text{address} = 2^{\,32-x}
+$$
+
+<SubnetCalc />
+
+<Example title="200.23.16.0/23 มีกี่ address ช่วงไหน?">
+
+<Solution>
+
+host bits = 32 − 23 = 9 → $2^9$ = 512 address = 2 × 256 ครอบไบต์ที่ 3 สองค่า → **200.23.16.0 – 200.23.17.255** · mask = 255.255.254.0
+
+</Solution>
+
+</Example>
+
+### Route aggregation และ more specific route
+
+ISP มี 200.23.16.0/20 แบ่งให้ 8 องค์กร องค์กรละ /23 (ยืม 3 บิต) แต่ประกาศออกไปแค่ **200.23.16.0/20 บรรทัดเดียว** = **route aggregation** ตารางทั้งอินเทอร์เน็ตเล็กลง
+
+ถ้า Organization 1 (200.23.18.0/23) ย้ายไป ISP อื่น ISP ใหม่ประกาศ **200.23.18.0/23** เพิ่ม แพ็กเก็ตไป 200.23.18.x ตรงทั้ง /20 และ /23 → **longest prefix match เลือก /23** ไปถูกที่ นี่คือเหตุผลที่ต้องใช้ longest prefix
+
+ISP ได้ address จาก **ICANN** ผ่าน 5 regional registries · IPv4 ก้อนสุดท้ายแจกหมดปี **2011** → ทางแก้คือ NAT และ IPv6
+
+## DHCP
+
+host ขอ IP อัตโนมัติตอนเข้าเครือข่าย (**plug-and-play**) IP เป็นแบบ**เช่า (lease)** ต่ออายุได้และนำกลับมาใช้ใหม่ · DHCP server มักอยู่ในเราเตอร์
+
+<DhcpDora />
+
+<Tip title="จุดที่ออกสอบ">
+
+- ทุกข้อความ **broadcast** 255.255.255.255 เพราะ client ยังไม่มี IP · client ใช้ src **0.0.0.0**
+- วิ่งบน **UDP**: server **67**, client **68** · ห่อ DHCP → UDP → IP → Ethernet (dest MAC FF:FF:FF:FF:FF:FF)
+- ได้มากกว่า IP: **first-hop router, ชื่อ/IP ของ DNS server, network mask**
+- ขั้น 1–2 ข้ามได้ถ้า client จำ IP เดิม
+
+</Tip>
+
+## NAT
+
+ทุกเครื่องในบ้านใช้ **public IPv4 ตัวเดียว**ร่วมกัน โลกภายนอกเห็นทุกแพ็กเก็ตมี source IP เดียวกัน ต่างกันแค่ **port** · เครื่องในบ้านใช้ **private IP: 10/8, 172.16/12, 192.168/16**
+
+NAT router ทำ 3 อย่าง: ขาออกเปลี่ยน (src IP, port) → (NAT IP, port ใหม่) · จำคู่ไว้ใน **NAT translation table** · ขาเข้าเปลี่ยน dest กลับตามตาราง
+
+<NatSim />
+
+<Compare>
+<CompareItem title="ข้อดี">
+
+ขอ IP จาก ISP ตัวเดียว · เปลี่ยน IP ในบ้านหรือเปลี่ยน ISP ได้โดยไม่กระทบกัน · คนข้างนอกมองไม่เห็นเครื่องข้างในตรงๆ
+
+</CompareItem>
+<CompareItem title="ทำไมถูกถกเถียง">
+
+เราเตอร์ควรทำแค่ layer 3 แต่ NAT แก้ port (layer 4) · ควรแก้ด้วย IPv6 · ละเมิด **end-to-end argument** · **NAT traversal**: คนนอกต่อเข้า server หลัง NAT ไม่ได้
+
+</CompareItem>
+</Compare>
+
+## IPv6 และ tunneling
+
+แรงจูงใจ: address 32 บิตจะหมด + อยากให้เราเตอร์ประมวลผลเร็วด้วย **header ยาวคงที่ 40 bytes** · address **128 บิต** · มี **flow label** · **hop limit** = TTL
+
+<Warn title="3 อย่างที่ IPv6 ตัดทิ้ง (ออกบ่อยมาก)">
+
+1. **ไม่มี checksum** (ไม่ต้องคำนวณใหม่ทุก hop)
+2. **ไม่มี fragmentation/reassembly** ที่เราเตอร์
+3. **ไม่มี options** (ย้ายไปเป็น next header)
+
+ดูได้ในเครื่องมือ IP datagram ข้างบน สลับเป็น IPv6
+
+</Warn>
+
+**Tunneling:** อัปเกรดทั้งโลกพร้อมกันไม่ได้ จึงเอา IPv6 datagram ทั้งก้อนไปเป็น **payload ของ IPv4 datagram** วิ่งผ่านช่วงที่มีแต่เราเตอร์ IPv4
+
+<Figure src="tunneling" caption="ช่วง B → E: IPv4 header มี src = B, dest = E (ปลายท่อ) ข้างในคือ IPv6 เดิม src = A, dest = F" />
+
+## Generalized forwarding และ SDN
+
+ขยายจาก "ดู IP ปลายทางแล้ว forward" เป็น **match + action**: match header ได้หลาย field หลาย layer แล้วทำ action ได้หลายแบบ (drop, forward, modify, ส่งให้ controller) ตารางเรียกว่า **flow table**
+
+<Def title="flow table entry มี 4 ส่วน">
+
+**Match** (pattern ใช้ * ได้) · **Action** · **Priority** (ตัดสินเมื่อ pattern ซ้อน) · **Counters** (นับ bytes/packets)
+
+</Def>
+
+**OpenFlow** match ได้ 12 field 3 layer: link (ingress port, MAC src/dst, eth type, VLAN ID/pri) · network (IP src/dst/proto/ToS) · transport (TCP/UDP src/dst port)
+
+<FlowTable />
+
+match+action รวมอุปกรณ์ที่เคยแยกกันไว้ในนามธรรมเดียว:
+
+| อุปกรณ์ | Match | Action |
+|---|---|---|
+| Router | longest destination IP prefix | forward ออกลิงก์ |
+| Switch | destination MAC | forward หรือ flood |
+| Firewall | IP address + TCP/UDP port | permit / deny |
+| NAT | IP address + port | rewrite address + port |
+
+<Tip>
+
+controller ตั้ง flow table หลาย switch พร้อมกันได้ เช่นบังคับให้ traffic จาก h5, h6 **อ้อมผ่าน s1** ก่อนไป s2 (ไม่ใช่ทางสั้นสุด) ซึ่ง destination-based forwarding ทำไม่ได้ เพราะแยกตาม source หรือ ingress port ไม่ได้
+
+</Tip>
+
+## Middleboxes และหลักการออกแบบ
+
+**Middlebox** (RFC 3234) = อุปกรณ์กลางทางที่ทำมากกว่างานปกติของ IP router เช่น NAT, firewall, IDS, load balancer, cache · วิวัฒนาการ: hardware ปิด → whitebox + open API → SDN → **NFV** (network function เป็น software)
+
+<Figure src="hourglass" caption="IP hourglass: ชั้นบนและล่างมีหลาย protocol แต่เอวคอด (thin waist) มี IP ตัวเดียว" width={560} />
+
+<Figure src="hourglass-middle-age" caption="พอวัยกลางคน เอวเริ่มมี love handles = middlebox (NAT, firewall, caching) ทำงานในเครือข่าย" width={560} />
+
+- **RFC 1958:** เป้าหมายคือ connectivity, เครื่องมือคือ IP, **ความฉลาดอยู่ที่ขอบ (end to end)** ไม่ใช่ในเครือข่าย
+- **End-to-end argument:** ฟังก์ชันอย่าง reliable transfer / congestion control **ทำได้ครบถ้วนก็ต่อเมื่อใช้ความรู้ของ application ที่ปลายทาง** จึงควรอยู่ที่ host (TCP) ส่วนในเครือข่ายทำแค่บางส่วนเพื่อ performance ได้ (NAT ละเมิดหลักนี้)
+
+## สรุป + ควิซ
+
+| เรื่อง | จำ |
+|---|---|
+| Longest prefix | match หลายแถว เลือกยาวสุด |
+| Buffer | RTT × C หรือ RTT × C / √N |
+| WFQ | $R \cdot w_i / \sum w_j$ |
+| CIDR /x | $2^{32-x}$ address |
+| Fragment | data/ชิ้น = MTU − 20 (หาร 8), offset = byte/8 |
+| DHCP | DORA, UDP 67/68, broadcast |
+| NAT private | 10/8, 172.16/12, 192.168/16 |
+| IPv6 | 128 บิต, header 40 B, ไม่มี checksum / frag / options |
+
+<Example title="ข้อ 1">
+
+IP 200.23.19.5 ตรงกับ prefix ไหนบ้างระหว่าง 200.23.16.0/20, 200.23.18.0/23, 200.23.20.0/23 และต้องเลือกอันไหน?
+
+<Solution>
+
+ไบต์ 3: 19 = 0001 0011 · /20 ดู 4 บิตแรกของไบต์ 3 = 0001 ตรง · /23 ของ 18 ดู 7 บิตแรก 0001 001 ตรง (18, 19) · 20 = 0001 010 ไม่ตรง → เลือก **200.23.18.0/23** (ยาวกว่า)
+
+</Solution>
+
+</Example>
+
+<Example title="ข้อ 2">
+
+datagram 2400 bytes ผ่านลิงก์ MTU 700 bytes ได้กี่ fragment offset ของชิ้นสุดท้ายเท่าไร?
+
+<Solution>
+
+data = 2400 − 20 = 2380 · ต่อชิ้น 700 − 20 = 680 (680/8 = 85 ลงตัว) · 2380 = 680 × 3 + 340 → **4 ชิ้น** · offset ชิ้นสุดท้าย = 2040/8 = **255** · length = 340 + 20 = 360, flag = 0
+
+</Solution>
+
+</Example>
+
+<Example title="ข้อ 3">
+
+ISP มี 128.119.40.0/22 ต้องแบ่งให้ 4 องค์กรเท่ากัน แต่ละองค์กรได้ block อะไร?
+
+<Solution>
+
+ยืม 2 บิต → 4 ก้อน ก้อนละ /24 (256 address): **128.119.40.0/24, 128.119.41.0/24, 128.119.42.0/24, 128.119.43.0/24** และ ISP ยังประกาศแค่ /22 บรรทัดเดียว
+
+</Solution>
+
+</Example>
+
+<Example title="ข้อ 4">
+
+ทำไม DHCP discover ต้องใช้ src IP 0.0.0.0 และ dest 255.255.255.255?
+
+<Solution>
+
+client **ยังไม่มี IP** จึงใช้ 0.0.0.0 และ**ยังไม่รู้ว่า DHCP server อยู่ไหน** จึงต้อง broadcast ให้ทุกเครื่องใน subnet ได้รับ
+
+</Solution>
+
+</Example>
+
+<Tip title="บทต่อไป">
+
+forwarding table และ flow table ถูกคำนวณมาอย่างไร → **control plane** บทที่ 5
+
+</Tip>

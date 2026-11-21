@@ -1,0 +1,284 @@
+บทนี้ตอบคำถามที่ค้างจากบทที่ 4: **forwarding table ถูกคำนวณมาอย่างไร** · ส่วนที่ต้องคำนวณและออกสอบมากที่สุดคือ **Dijkstra กับ Distance Vector** (ฝึกทำตารางด้วยมืออย่างละครั้ง) จากนั้นเป็นของจริงในอินเทอร์เน็ต: OSPF, BGP, SDN, ICMP
+
+## Routing algorithm
+
+เป้าหมาย: หา **"good path"** (cost ต่ำสุด / เร็วสุด / congest น้อยสุด) จากต้นทางไปปลายทาง · มองเครือข่ายเป็นกราฟ **G = (N, E)**: N = เราเตอร์, E = ลิงก์, **c(a,b)** = cost ของลิงก์ตรง (ไม่มีลิงก์ = ∞) ผู้ดูแลกำหนด cost เองได้ เช่น 1 ทุกลิงก์ หรือแปรผกผันกับ bandwidth
+
+<Compare>
+<CompareItem title="Global → Link state (LS)">
+
+ทุกเราเตอร์รู้ **topology และ cost ทั้งหมด** · ใช้ **Dijkstra** · เช่น OSPF, IS-IS
+
+</CompareItem>
+<CompareItem title="Decentralized → Distance vector (DV)">
+
+รู้แค่ cost ไป**เพื่อนบ้าน** คำนวณวนซ้ำแลกข้อมูลกับเพื่อนบ้าน · ใช้ **Bellman-Ford** · เช่น RIP, EIGRP
+
+</CompareItem>
+</Compare>
+
+อีกแกนหนึ่ง: **static** (เส้นทางเปลี่ยนช้า) vs **dynamic** (อัปเดตเป็นรอบหรือเมื่อ cost เปลี่ยน)
+
+## Link state: Dijkstra
+
+ทุก node ได้ topology เหมือนกันผ่าน **link state broadcast** แล้วคำนวณ least-cost path จากตัวเองไป**ทุก node** · หลัง k รอบจะรู้คำตอบแน่นอน k ปลายทาง
+
+<Def title="สัญลักษณ์">
+
+**D(v)** = cost ต่ำสุดไป v เท่าที่รู้ตอนนี้ · **p(v)** = node ก่อนหน้า v บน path · **N'** = เซต node ที่รู้คำตอบแน่นอนแล้ว
+
+</Def>
+
+1. เริ่ม: N' = \{u\} เพื่อนบ้านของ u ได้ D(v) = c(u,v) ที่เหลือ ∞
+2. หา w ∉ N' ที่ **D(w) น้อยสุด** ใส่เข้า N'
+3. อัปเดตทุก v ที่ติดกับ w และ ∉ N':
+
+$$
+D(v) = \min\big(D(v),\; D(w) + c(w,v)\big)
+$$
+
+ถ้าค่าลดลง เปลี่ยน p(v) = w · ทำซ้ำจนทุก node อยู่ใน N'
+
+<DijkstraSim />
+
+<Tip>
+
+- **เสมอกันเลือกตัวไหนก่อนก็ได้** (สไลด์เลือก y ก่อน v) cost สุดท้ายเท่ากัน
+- forwarding table เก็บแค่**ลิงก์แรก** (เช่นไป w, y, z ออก (u,x) ทั้งหมด)
+- ความซับซ้อน: algorithm **O(n²)** (ทำให้เหลือ O(n log n) ได้) · messages **O(n²)**
+
+</Tip>
+
+**Oscillation:** ถ้า cost ขึ้นกับปริมาณ traffic ทุกคนย้ายไปทางที่ว่าง ทางนั้นก็ congest แทน รอบหน้าย้ายกลับ แกว่งไม่จบ
+
+<Figure src="ls-oscillation" caption="เส้นทางแกว่งไปมาเมื่อ link cost ขึ้นกับ traffic" />
+
+## Distance vector: Bellman-Ford
+
+$$
+D_x(y) = \min_v \{\, c(x,v) + D_v(y) \,\}
+$$
+
+แปล: ทางถูกสุดไป y = เลือก**เพื่อนบ้าน v** ที่ (ค่าเดินไป v + ที่ v บอกว่าไป y ได้) ถูกที่สุด · เพื่อนบ้านที่ให้ค่า min = **next hop**
+
+<Example title="ตัวอย่างสไลด์">
+
+u มีเพื่อนบ้าน v, x, w (cost 2, 1, 5) ซึ่งบอกว่า $D_v(z)=5,\ D_x(z)=3,\ D_w(z)=3$ หา $D_u(z)$
+
+<Solution>
+
+$D_u(z) = \min\{2+5,\ 1+3,\ 5+3\} = 4$ → next hop ไป z คือ **x**
+
+</Solution>
+
+</Example>
+
+<Def title="คุณสมบัติ 3 อย่างของ DV">
+
+**Iterative, asynchronous** (คำนวณใหม่เมื่อ cost ข้างตัวเปลี่ยนหรือได้ DV จากเพื่อนบ้าน) · **Distributed** (บอกเพื่อนบ้านเฉพาะตอน DV ตัวเองเปลี่ยน) · **Self-stopping** (ไม่มีใครแจ้งก็ไม่ทำอะไร)
+
+</Def>
+
+<DvGrid />
+
+### Link cost เปลี่ยน
+
+<CountToInfinity />
+
+<Warn title="count-to-infinity">
+
+y เห็นลิงก์ไป x แพงขึ้นเป็น 60 แต่ z เคยบอกว่าไป x ได้ 5 → y คิดว่า "ไปผ่าน z ได้ 6" ทั้งที่ทางของ z ต้องผ่าน y เอง → ค่าเพิ่มทีละ 1 วนไปเรื่อยๆ จนเกิน 50 ระหว่างนั้นแพ็กเก็ตวนระหว่าง y กับ z (routing loop) · แก้ด้วย **poisoned reverse** (ได้เฉพาะ loop 2 node)
+
+</Warn>
+
+## LS vs DV
+
+| ด้าน | Link State | Distance Vector |
+|---|---|---|
+| Message | n เราเตอร์ส่ง O(n²) | แลกแค่เพื่อนบ้าน เวลา converge ไม่แน่นอน |
+| Convergence | O(n²) อาจมี oscillation | อาจมี routing loop, count-to-infinity |
+| Robustness | ประกาศ **link** cost ผิด แต่ละตัวคำนวณเอง → ผิดเฉพาะวง | ประกาศ **path** cost ผิด → **black-holing** และ error แพร่ทั้งเครือข่าย |
+| ข้อมูลที่รู้ | topology ทั้งหมด | แค่เพื่อนบ้าน |
+
+## Intra-AS routing: OSPF
+
+โลกจริงแบนไม่ได้เพราะ **scale** (ปลายทางหลายพันล้าน) และ **administrative autonomy** (แต่ละเจ้าอยากคุมเครือข่ายตัวเอง) จึงรวมเราเตอร์เป็น **Autonomous System (AS)**
+
+- **Intra-AS:** ในเครือข่ายเดียวกัน ทุกเราเตอร์ใน AS ต้องใช้ protocol เดียวกัน (RIP, EIGRP, OSPF)
+- **Inter-AS:** ระหว่าง AS ทั้งอินเทอร์เน็ตใช้ **BGP**
+- **Gateway router** อยู่ขอบ AS ทำทั้ง intra และ inter · ปลายทางในอยู่ AS → intra กำหนด · ปลายทางนอก AS → ทั้งสองทำร่วมกัน
+
+| Protocol | ประเภท | หมายเหตุ |
+|---|---|---|
+| RIP | DV | แลก DV ทุก 30 วิ ไม่ค่อยใช้แล้ว |
+| EIGRP | DV | เคยเป็นของ Cisco เปิดปี 2013 |
+| **OSPF** | **LS** | IS-IS แทบเหมือนกัน |
+
+<Def title="OSPF (Open Shortest Path First)">
+
+"Open" = มาตรฐานเปิด · ทุกเราเตอร์ **flood LSA** ให้ทั้ง AS **ตรงบน IP** (ไม่ผ่าน TCP/UDP) · ใช้ **Dijkstra** · ทุกข้อความถูก **authenticate**
+
+</Def>
+
+**Hierarchical OSPF:** AS ใหญ่แบ่ง **local area + backbone** · LSA flood แค่ใน area ตัวเอง · บทบาท: **local router** (คำนวณใน area) · **area border router** (สรุประยะไป area ตัวเองแล้วประกาศใน backbone) · **backbone router** · **boundary router** (ต่อ AS อื่น)
+
+## Inter-AS routing: BGP
+
+**BGP** = "กาวที่ยึดอินเทอร์เน็ตไว้" ให้ subnet ประกาศว่า "ฉันอยู่ที่นี่ ไปถึงได้ทางไหน" · **eBGP** รับ reachability จาก AS เพื่อนบ้าน · **iBGP** กระจายภายใน AS
+
+<Figure src="ebgp-ibgp" caption="เส้นแดง = eBGP ข้าม AS · เส้นประฟ้า = iBGP ภายใน AS · gateway router (วงแดง) รันทั้งสองแบบ" width={640} />
+
+- **path vector protocol** บน **TCP connection แบบกึ่งถาวร** (peers) ประกาศ**ทั้ง path** ไปยัง prefix (คล้าย DV แต่ส่ง path)
+- message 4 ตัว: **OPEN** (เปิด TCP + authenticate) · **UPDATE** (ประกาศ/ถอน path) · **KEEPALIVE** · **NOTIFICATION** (error, ปิด)
+- route = prefix + attributes: **AS-PATH** (AS ที่ผ่านมา) · **NEXT-HOP** (เราเตอร์ภายในที่เป็นทางออก)
+- **import policy** ตัดสินว่าจะรับ path ไหม การประกาศ = การสัญญาว่าจะ forward ให้
+
+<Tip title="BGP + OSPF เติม forwarding table">
+
+**BGP บอกว่าออก gateway ไหน · OSPF บอกว่าไป gateway นั้นทาง interface ไหน**
+
+</Tip>
+
+<Figure src="hot-potato" caption="Hot potato: 2d ไป X ได้ผ่าน 2a (OSPF cost 201) หรือ 2c (263) → เลือก 2a เพราะ intra-domain cost ต่ำกว่า แม้ผ่าน AS มากกว่า" width={640} />
+
+<Figure src="bgp-policy" caption="Policy: B ไม่ประกาศ B-A-w ให้ C เพราะไม่ได้เงิน (C ไม่ใช่ลูกค้า B) → C ใช้ C-A-w · ลูกค้า dual-homed ไม่ประกาศ route ข้ามเพื่อไม่ให้ตัวเองเป็นทางผ่าน" width={520} />
+
+**BGP route selection** (เสมอจึงไปข้อถัดไป): 1. local preference (policy) → 2. AS-PATH สั้นสุด → 3. NEXT-HOP ใกล้สุด (hot potato) → 4. เกณฑ์อื่น
+
+<Compare>
+<CompareItem title="Intra-AS">
+
+admin เดียว policy ไม่ค่อยเป็นประเด็น · **เน้น performance** ได้เต็มที่
+
+</CompareItem>
+<CompareItem title="Inter-AS">
+
+อยากคุมว่า traffic ไปทางไหน ใครผ่านได้ · **policy สำคัญกว่า performance**
+
+</CompareItem>
+</Compare>
+
+## SDN control plane
+
+ทำไม **logically centralized**: จัดการง่าย ลด config ผิด · คำนวณตารางที่ศูนย์กลางแล้วแจก**ง่ายกว่า** distributed algorithm · control plane เปิด → นวัตกรรม (เปรียบ mainframe → PC)
+
+**Traffic engineering ที่ routing แบบเดิมทำยาก:** บังคับ u→z ไปทาง uvwz (ต้องปรับ link weight เท่านั้น) · แบ่ง traffic ไป 2 ทาง (ทำไม่ได้) · ให้ w ส่ง traffic 2 แบบไปคนละทาง (ทำไม่ได้ เพราะดูแค่ปลายทาง) → SDN + match+action ทำได้หมด
+
+<SdnStack />
+
+<Example title="ลิงก์เสีย: control และ data plane คุยกันอย่างไร">
+
+1. s1 ส่ง OpenFlow **port status** แจ้ง controller
+2. controller อัปเดต link status
+3. app Dijkstra ที่ลงทะเบียนรอไว้ถูกเรียก
+4. Dijkstra คำนวณ route ใหม่จาก network graph
+5. controller คำนวณ flow table ใหม่
+6. controller ติดตั้งตารางใหม่ใน switch ที่ต้องอัปเดตผ่าน OpenFlow
+
+</Example>
+
+controller จริง: **ONOS** (มี intent framework บอก "อะไร" ไม่ต้องบอก "อย่างไร"), **OpenDaylight**, **Google ORION** · ความท้าทาย: ความทนทาน/ปลอดภัยของ control plane, งาน real-time, ขยายเกิน AS เดียว, 5G
+
+## ICMP และ traceroute
+
+**ICMP** ให้ host/เราเตอร์ส่งข้อมูลระดับ network: error reporting และ echo (ping) · อยู่ **"เหนือ" IP** เพราะถูกห่อใน IP datagram · ข้อความ = **type + code** + 8 bytes แรกของ datagram ที่ทำให้เกิด error
+
+| Type/Code | ความหมาย |
+|---|---|
+| **0/0** | echo reply (ping) |
+| 3/0, 3/1, 3/2 | network / host / protocol unreachable |
+| **3/3** | **port unreachable** |
+| **8/0** | echo request (ping) |
+| **11/0** | **TTL expired** |
+| 12/0 | bad IP header |
+
+<TracerouteSim />
+
+<Tip>
+
+ดอกจัน `*` ไม่ได้แปลว่าเส้นทางเสีย: เราเตอร์อาจตั้งไม่ตอบ, ตอบช้าเกิน timeout, firewall บล็อก หรือปลายทางไม่ตอบแบบที่คาด
+
+</Tip>
+
+## Network management
+
+monitor / configure / control เครือข่ายด้วย hardware + software + คน · องค์ประกอบ: **managing server** (มีคนในวงจร) · **managed device** มี **agent** · **data** (config, operational, statistics) · **management protocol**
+
+วิธีของ operator: **CLI** (ทีละเครื่องผ่าน ssh) · **SNMP/MIB** (query/set ข้อมูลใน MIB) · **NETCONF/YANG** (มองทั้งเครือข่าย config หลายเครื่องพร้อมกัน)
+
+- **SNMP** 2 โหมด: request/response และ **trap** (agent แจ้งเองเมื่อผิดปกติ) · Get/GetNext/GetBulk/Set = manager → agent · Response, Trap = agent → manager
+- **MIB** = ข้อมูลในอุปกรณ์ นิยามด้วยภาษา **SMI** (เช่น UDP MIB: UDPInDatagrams, UDPNoPorts …)
+- **NETCONF** = RPC + **XML** บน transport ปลอดภัย (**TLS**) · **atomic commit** ข้ามหลายอุปกรณ์ · operation: get-config, get, edit-config, lock/unlock, create-subscription
+- **YANG** = data modeling language ที่ NETCONF ใช้ กำหนด structure / constraint ของ config
+
+| | SNMP world | NETCONF world |
+|---|---|---|
+| Protocol | SNMP | NETCONF (RPC + XML บน TLS) |
+| ภาษานิยามข้อมูล | SMI | YANG |
+| เน้น | query/set ทีละเครื่อง, monitor | config หลายเครื่องแบบ atomic |
+
+## สรุป + ควิซ
+
+| เรื่อง | จำ |
+|---|---|
+| Dijkstra | เลือก D น้อยสุด → อัปเดต $D(v)=\min(D(v), D(w)+c(w,v))$ · O(n²) |
+| Bellman-Ford | $D_x(y)=\min_v\{c(x,v)+D_v(y)\}$ · min มาจาก next hop |
+| DV | iterative/async, distributed, self-stopping · bad news ช้า |
+| OSPF | LS, flood LSA บน IP, authenticate, hierarchical |
+| BGP | path vector บน TCP · eBGP/iBGP · AS-PATH, NEXT-HOP · hot potato |
+| SDN | northbound = app, southbound = switch (OpenFlow) |
+| traceroute | UDP TTL 1,2,3… ได้ 11/0 จนได้ 3/3 |
+
+<Example title="ข้อ 1">
+
+กราฟหลัก source = u ถ้าเปลี่ยน c(x,y) จาก 1 เป็น 3 เส้นทางไป z เปลี่ยนไหม?
+
+<Solution>
+
+D(y) ผ่าน x = 1+3 = 4 ผ่าน w: D(w) ผ่าน x = 4, ผ่าน v = 5 → D(w) = 4 → y ผ่าน w = 4+1 = 5 → D(y) = 4 (ผ่าน x) · z: ผ่าน y = 4+2 = 6, ผ่าน w = 4+5 = 9 → **z = 6 ทาง u→x→y→z** เส้นทางเดิมแต่ cost เพิ่มจาก 4 เป็น 6 (ลองในเครื่องมือ Dijkstra โดยกด cost ของลิงก์ x–y)
+
+</Solution>
+
+</Example>
+
+<Example title="ข้อ 2">
+
+x มีเพื่อนบ้าน y (cost 2) และ z (cost 7) ได้ DV: $D_y = (x{:}2, y{:}0, z{:}1)$, $D_z = (x{:}7, y{:}1, z{:}0)$ หา $D_x(z)$ และ next hop
+
+<Solution>
+
+$D_x(z) = \min\{c(x,y)+D_y(z),\ c(x,z)+D_z(z)\} = \min\{2+1,\ 7+0\} = 3$ → next hop = **y**
+
+</Solution>
+
+</Example>
+
+<Example title="ข้อ 3">
+
+ทำไม OSPF ส่ง LSA บน IP ตรง แต่ BGP ใช้ TCP และ hot potato คืออะไร?
+
+<Solution>
+
+OSPF flood ภายใน AS ให้ทุกเราเตอร์ ส่งบน IP ตรงได้ ส่วน BGP เป็น session ระหว่าง peer 2 ตัวที่ต้องการความน่าเชื่อถือจึงใช้ **TCP แบบกึ่งถาวร** · **hot potato** = เลือก gateway ที่ intra-domain cost ต่ำสุด ไม่สน inter-domain cost (รีบโยนออกจากเครือข่ายตัวเอง)
+
+</Solution>
+
+</Example>
+
+<Example title="ข้อ 4">
+
+traceroute ไปปลายทางที่ห่าง 4 hop ต้นทางได้ ICMP อะไรกลับมาบ้าง และรู้ได้อย่างไรว่าถึงแล้ว?
+
+<Solution>
+
+ชุด TTL = 1, 2, 3 หมดอายุที่เราเตอร์ตัวที่ 1–3 → ได้ **ICMP 11/0** (TTL expired) ชุดละ 3 ตัว · ชุด TTL = 4 ถึงปลายทาง ซึ่งไม่มีแอปที่พอร์ตนั้น → ตอบ **ICMP 3/3 port unreachable** → หยุด
+
+</Solution>
+
+</Example>
+
+<Tip title="บทต่อไป">
+
+แพ็กเก็ตวิ่งข้ามลิงก์แต่ละช่วงอย่างไร → **link layer** บทที่ 6
+
+</Tip>

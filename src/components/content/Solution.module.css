@@ -1,0 +1,13 @@
+.details {
+  margin-top: 8px;
+  border-top: 1px dashed var(--border);
+  padding-top: 8px;
+}
+.summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--ex);
+}
+.body > :last-child {
+  margin-bottom: 0;
+}

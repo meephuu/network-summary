@@ -1,0 +1,3 @@
+node_modules
+# built by GitHub Actions on every push; build locally with `npm run build`
+dist
