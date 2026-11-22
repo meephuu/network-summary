@@ -105,6 +105,17 @@ export const CHAPTERS: Chapter[] = [
     accent: COLORS.yellow,
     Content: lazy(() => import('./chapters/cheat-sheet/content.mdx')),
   },
+  {
+    id: 'quiz',
+    no: 'Q',
+    group: 'extra',
+    title: 'Quiz: Review Questions #5–8',
+    subtitle: 'Quiz',
+    source: 'Review Questions #5–#8 (myCourseVille)',
+    blurb: 'โจทย์ Review Questions จาก myCourseVille 117 ข้อ ทำในเว็บได้ รู้ผลทันที จำคะแนนไว้',
+    accent: COLORS.lime,
+    Content: lazy(() => import('./chapters/quiz/content.mdx')),
+  },
 ]
 
 /* ───────────────────────── 4. floating panel ───────────────────────── */

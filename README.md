@@ -17,6 +17,7 @@
 | 5 Control Plane | Dijkstra (แก้ cost/เปลี่ยน source ได้) · Distance vector กริด 3×3 · Count-to-infinity + poisoned reverse · SDN + OpenFlow messages · traceroute | LS oscillation, eBGP/iBGP, hot potato, BGP policy |
 | 6 Link Layer | Parity 1D/2D · Internet checksum · CRC (หาร mod-2 ทีละขั้น) · TDMA/FDMA · ALOHA/CSMA-CD efficiency · Binary backoff · ส่งข้าม subnet · Ethernet frame + 802.1Q · Switch self-learning (1 ตัว / S1–S4) · A day in the life | ARP, VLAN, MPLS tables, data center, multipath, scenario |
 | C Cheat Sheet | – | ตัวเลข/สูตร/ลำดับขั้น/คู่เปรียบเทียบ/กับดัก |
+| Q Quiz | ทำโจทย์ Review Questions #5–#8 (117 ข้อ) รู้ผลทันที กรองข้อที่ยังไม่ทำ/ข้อที่ผิด จำคะแนน | รูปจากโจทย์ 15 รูป |
 
 ปุ่มมุมขวาล่างเปิดตาราง **Subnet /x** (มีเครื่องคิด), **ฐาน 2**, **ICMP / ตัวเลขที่ต้องจำ**
 

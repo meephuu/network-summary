@@ -1,0 +1,2139 @@
+[
+ {
+  "id": "5",
+  "title": "Review Questions #5",
+  "topic": "Chapter 4 · Data Plane",
+  "by": "อ.ธงชัย",
+  "questions": [
+   {
+    "n": 1,
+    "parts": [
+     "<p>Which one is correct about the data plane?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Determining how datagram is routed from source host to destination host",
+     "Using network-wide logic",
+     "Using the forwarding function",
+     "All of the above answers"
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 2,
+    "parts": [
+     "<p>Which one isn’t types of switching fabrics?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Crossbar",
+     "Star",
+     "Bus",
+     "Memory"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 3,
+    "parts": [
+     "<p>What are two bad effects due to head-of-line blocking?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Queuing delay and input buffer overflow",
+     "Queuing delay and output buffer overflow",
+     "Input buffer overflow and output buffer overflow",
+     "None of the above answers"
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 4,
+    "parts": [
+     "<p>Which scheduling policy sends out packets from multiple classes with equal priority?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "First In First Out",
+     "Priority",
+     "Round Robin",
+     "Weighted Fair Queuing"
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 5,
+    "parts": [
+     "<p>If there is no class and no priority for all packets, which scheduling policy is the most suitable?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "First In First Out",
+     "Priority",
+     "Round Robin",
+     "Weighted Fair Queuing"
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 6,
+    "parts": [
+     "<p>Which one is correct about destination-based forwarding?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Using the shortest prefix matching",
+     "Considered as a match and action in generalized forwarding",
+     "Use broadcast address",
+     "Cannot be used with IPv6"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 7,
+    "parts": [
+     "<p>How does the DHCP (Dynamic Host Configuration Protocol) work?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "request -> offer -> ack",
+     "discover -> request -> provide -> ack",
+     "discover -> offer -> request -> ack",
+     "discover -> offer -> request -> ack -> ack"
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 8,
+    "parts": [
+     "<p>Which one is guaranteed by the Internet \"best effort\" service?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Bandwidth",
+     "Loss",
+     "Order",
+     "None of the above answers"
+    ],
+    "answer": [
+     3
+    ]
+   },
+   {
+    "n": 9,
+    "parts": [
+     "<p>From this forwarding table, if the destination address is</p> <p>11001000&nbsp; 00010111&nbsp; 00011111&nbsp; 10101010</p> <p>which outport it will be forwarded to?</p> <p>",
+     "</p>"
+    ],
+    "img": [
+     "q5-forwarding-table"
+    ],
+    "choices": [
+     "3",
+     "2",
+     "1",
+     "0"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 10,
+    "parts": [
+     "<p>If the RTT is 120 msec and the bandwidth is 10 Gbps, what should be the average buffer size?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "1.2 Gbit",
+     "12 Gbit",
+     "2.4 Gbit",
+     "24 Gbit"
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 11,
+    "parts": [
+     "<p>Which one is correct about IPv4 datagram?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Fixed lenght header of 20 bytes",
+     "No checksum",
+     "Addressing with 4 bytes",
+     "None of the above"
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 12,
+    "parts": [
+     "<p>How many subnsets does this network contain?</p> <p>",
+     "</p>"
+    ],
+    "img": [
+     "q5-subnets"
+    ],
+    "choices": [
+     "1",
+     "2",
+     "3",
+     "4"
+    ],
+    "answer": [
+     3
+    ]
+   },
+   {
+    "n": 13,
+    "parts": [
+     "<p>DHCP works in which layer?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Appiicatiion",
+     "Transport",
+     "Network",
+     "None of above"
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 14,
+    "parts": [
+     "<p>Where in a router is the destination IP address looked up in a forwarding table to determine the appropriate output port to which the datagram should be directed?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "input port",
+     "switching fabric",
+     "routing processor"
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 15,
+    "parts": [
+     "<p>Which switching fabric is the fastest?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Memory",
+     "Bus",
+     "Interconnection network",
+     "Star"
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 16,
+    "parts": [
+     "<p>Suppose a datagram is switched through the switching fabric and arrives to its appropriate output to find that there are no free buffers.&nbsp; In this case:</p>"
+    ],
+    "img": [],
+    "choices": [
+     "The packet will be dropped (lost).",
+     "Another packet will be removed (lost) from the buffer to make room for this packet.",
+     "The packet will be sent back to the input port.",
+     "The packet will either be dropped or another packet will be removed (lost) from the buffer to make room for this packet, depending on policy."
+    ],
+    "answer": [
+     3
+    ]
+   },
+   {
+    "n": 17,
+    "parts": [
+     "<p>What is meant by saying that DHCP is a \"plug and play\" protocol?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "The host needs to “plug” (by wire or wirelessly) into the local network in order to access (“play” in) the Internet.",
+     "The network provides an Ethernet jack for a host’s Ethernet adapter.",
+     "No manual configuration is needed for the host to join the network.",
+     "The server use Artificial Intelligence to control the network."
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 18,
+    "parts": [
+     "<p>What is the purpose of the Dynamic Host Configuration Protocol?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "To configure the interface speed to be used, for hardware like Ethernet, which can be used at different speeds",
+     "To configure the set of available open ports (and hence well-known services) for a server.",
+     "To obtain an IP address for a host attaching to an IP network.",
+     "To get the 48-bit link-layer MAC address associated with a network-layer IP address."
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 19,
+    "parts": [
+     "In CIDR notation, what does the slash notation (/24) specify?"
+    ],
+    "img": [],
+    "choices": [
+     "The number of servers available.",
+     "The number of bits used for the host portion of the address.",
+     "The number of bits in subnet portion of address.",
+     "The total number of IP addresses available."
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 20,
+    "parts": [
+     "In the IPv4 header, which field is used to prevent a packet from looping indefinitely?"
+    ],
+    "img": [],
+    "choices": [
+     "Fragment Offset",
+     "TTL (Time to Live)",
+     "Checksum",
+     "Identification"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 21,
+    "parts": [
+     "In an IPv4 header, what is the purpose of the Header Checksum field?"
+    ],
+    "img": [],
+    "choices": [
+     "To provide information about upper layer protocol.",
+     "To ensure the packet has reached its final destination.",
+     "To provide a means for error checking the header's integrity.",
+     "To identify the fragment offset of the packet"
+    ],
+    "answer": [
+     2
+    ]
+   }
+  ]
+ },
+ {
+  "id": "6-1",
+  "title": "Review Questions #6-1",
+  "topic": "Chapter 4/5 · Generalized forwarding + Routing",
+  "by": "อ.กุลธิดา",
+  "questions": [
+   {
+    "n": 1,
+    "parts": [
+     "Destination-based forwarding, which we studied in section 4.2, is a specific instance of match+action and generalized forwarding. Select the phrase below which best completes the following sentence: \"In destination-based forwarding, ...\""
+    ],
+    "img": [],
+    "choices": [
+     "... after matching on the source and destination IP address in the datagram header, the action taken is to forward the datagram to the output port associated with that source and destination IP address pair.",
+     "... after matching on the port number in the segment's header, the action taken is to forward the datagram to the output port associated with that port number.",
+     "... after matching on the 48-bit link-layer destination MAC address, the action taken is to forward the datagram to the output port associated with that link-layer address.",
+     "... after matching on the URL contained in an HTTP GET request in the TCP segment within the IP datagram, the action taken is to determine the IP address of the server associated with that URL, and to forward the datagram to the output port associated with that destination IP address.",
+     "... after matching on the port number in the segment's header, the action taken is to decide whether or not to drop the datagram containing that segment.",
+     "... after matching on the destination IP address in the datagram header, the action taken is to decide whether or not to drop that datagram.",
+     "... after matching on the destination IP address in the datagram header, the action taken is to forward the datagram to the output port associated with that destination IP address."
+    ],
+    "answer": [
+     6
+    ]
+   },
+   {
+    "n": 3,
+    "parts": [
+     "<p>Which of the following fields in the frame/datagram/segment/application-layer message can be matched in OpenFlow 1.0?</p> <p>(a) Time-to-live field <br> (b) IP source address <br> (c) URL in HTTP message <br> (d) Upper layer protocol field <br> (e) IP type-of-service field <br> (f) Number of bytes in the datagram <br> (i) Source and/or destination port number <br> (j) IP destination address</p>"
+    ],
+    "img": [],
+    "choices": [
+     "a, b, d, e, j",
+     "b, c, d, f, j",
+     "b, c, f, i, j",
+     "b, d, f, i, j",
+     "b, d, e, i, j",
+     "c, d, e, f, i",
+     "c, d, e, i, j"
+    ],
+    "answer": [
+     4
+    ]
+   },
+   {
+    "n": 4,
+    "parts": [
+     "<p>Consider the figure below that shows the generalized forwarding table in a router. Recall that a * represents a wildcard value. Now consider an arriving datagram with the IP source and destination address fields indicated below. For each source/destination IP address pair, indicate which rule is matched. Note: assume that a rule that is earlier in the table takes priority over a rule that is later in the table and that a datagram that matches none of the table entries is dropped. Source: 1.2.56.32 Destination:128.116.40.186</p> <p>",
+     "</p>"
+    ],
+    "img": [
+     "q6-flow-table"
+    ],
+    "choices": [
+     "Rule 3, with action send to controller",
+     "Rule 2, with action drop",
+     "Rule 1, with action forward(2)",
+     "No match to any rule."
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 5,
+    "parts": [
+     "<p>Consider the figure below that shows the generalized forwarding table in a router. Recall that a * represents a wildcard value. Now consider an arriving datagram with the IP source and destination address fields indicated below. For each source/destination IP address pair, indicate which rule is matched. Note: assume that a rule that is earlier in the table takes priority over a rule that is later in the table and that a datagram that matches none of the table entries is dropped. Source: 65.92.15.27 Destination: 3.4.65.76</p> <p>",
+     "</p>"
+    ],
+    "img": [
+     "q6-flow-table"
+    ],
+    "choices": [
+     "Rule 3, with action send to controller",
+     "Rule 2, with action drop",
+     "Rule 1, with action forward(2)",
+     "No match to any rule."
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 6,
+    "parts": [
+     "<p>Consider the figure below that shows the generalized forwarding table in a router. Recall that a * represents a wildcard value. Now consider an arriving datagram with the IP source and destination address fields indicated below. For each source/destination IP address pair, indicate which rule is matched. Note: assume that a rule that is earlier in the table takes priority over a rule that is later in the table and that a datagram that matches none of the table entries is dropped. Source: 10.1.2.3 Destination: 7.8.9.2</p> <p>",
+     "</p>"
+    ],
+    "img": [
+     "q6-flow-table"
+    ],
+    "choices": [
+     "Rule 3, with action send to controller",
+     "Rule 2, with action drop",
+     "Rule 1, with action forward(2)",
+     "No match to any rule."
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 7,
+    "parts": [
+     "<p>Consider the figure below that shows the generalized forwarding table in a router. Recall that a * represents a wildcard value. Now consider an arriving datagram with the IP source and destination address fields indicated below. For each source/destination IP address pair, indicate which rule is matched. Note: assume that a rule that is earlier in the table takes priority over a rule that is later in the table and that a datagram that matches none of the table entries is dropped. Source: 10.1.34.56 Destination: 54.72.29.90</p> <p>",
+     "</p>"
+    ],
+    "img": [
+     "q6-flow-table"
+    ],
+    "choices": [
+     "Rule 3, with action send to controller",
+     "Rule 2, with action drop",
+     "Rule 1, with action forward(2)",
+     "No match to any rule."
+    ],
+    "answer": [
+     3
+    ]
+   },
+   {
+    "n": 8,
+    "parts": [
+     "<p>Consider the network below.</p> <p>We want to specify the match+action rules at s3 so that only the following network-wide behavior is allowed:</p> <p>1. traffic from 128.119/16 and destined to 137.220/16 is forwarded on the direct link from s3 to s1;<br> 2. traffic from 128.119/16 and destined to 67.56/16 is forwarded on the direct link from s3 to s2;<br> 3. incoming traffic via port 2 or 3, and destined to 128.119/16 is forwarded to 128.119/16 via local port 1.<br> 4. No other forwarding should be allowed. In particular s3 should not forward traffic arriving from 137.220/16 and destined for 67.56/16 and vice versa.</p> <p>From the list of match+action rules below, select the rules to include in s3's flow table to implement this forwarding behavior. Assume that if a packet arrives and finds no matching rule, it is dropped.</p> <p>",
+     "</p> (a) Input port: 1; Dest: 67.56/16 Action: forward(3) (b) Input port: 3; Dest: 137.220/16 Action: forward(2) (c) Input port: 2; Dest: 67.56/16 Action: forward(3) (d) Input port:1 ; Dest: 137.220/16 Action: forward(2) (e) Input port: 3; Dest: 128.119/16 Action: forward(1) (f) Input port: 2; Dest: 128.119/16 Action: forward(1) (i) Input port: 1; Dest: 67.56/16 Action: forward(2) (j) Input port:1 ; Dest: 137.220/16 Action: forward(3)"
+    ],
+    "img": [
+     "q6-s1-s2-s3"
+    ],
+    "choices": [
+     "a, b, e, f",
+     "a, d, e, f",
+     "a, e, f, j",
+     "b, c, e, f",
+     "c, d, e, f",
+     "c, e, f, j"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 9,
+    "parts": [
+     "<p>Consider the network below.</p> <p>We want to specify the match+action rules at s3 so that s3 acts only as a relay for traffic between 137.220/16 and 67.56/16. In particular s3 should not accept/forward and traffic to/from 128.119/16. From the list of match+action rules below, select the rules to include in s3's flow table to implement this forwarding behavior. Assume that if a packet arrives and finds no matching rule, it is dropped.</p> <p>",
+     "</p> <p>(a) Input port: 1; Dest: 137.220/16 Action: forward(2)<br> (b) Input port: 2; Dest: 128.119/16 Action: forward(1)<br> (c) Input port: 1; Dest: 137.220/16 Action: forward(3)<br> (d) Input port: 3; Dest: 137.220/16 Action: forward(2) /<br> (e) Input port: 3; Dest: 128.119/16 Action: forward(1)<br> (f) Input port: 2; Dest: 67.56/16 Action: forward(3) /<br> (i) Input port: 1; Dest: 67.56/16 Action: forward(3)<br> (j) Input port: 1; Dest: 67.56/16 Action: forward(2)</p>"
+    ],
+    "img": [
+     "q6-s1-s2-s3"
+    ],
+    "choices": [
+     "a, b",
+     "a, e",
+     "a, f",
+     "b, c",
+     "b, d",
+     "b, f",
+     "c, i",
+     "c, j",
+     "d, f",
+     "d, i",
+     "e, i",
+     "e, j"
+    ],
+    "answer": [
+     8
+    ]
+   },
+   {
+    "n": 10,
+    "parts": [
+     "What is meant by generalized forwarding (as opposed to destination-based forwarding) in a router or switch?"
+    ],
+    "img": [],
+    "choices": [
+     "In addition to performing forwarding, the device can generalize its services, also performing hop-by-hop reliable data transfer and per-hop congestion control.",
+     "The decision about which output port to forward a packet to can be made based on the link-type of the outgoing port (e.g., Ethernet versus WiFi).",
+     "None of the other answers is a correct definition of generalized forwarding.",
+     "Any of several actions (including drop (block), forward to a given interface, or duplicate-and-forward) can be made based on the contents of one or more packet header fields."
+    ],
+    "answer": [
+     3
+    ]
+   },
+   {
+    "n": 11,
+    "parts": [
+     "<p>Which of the following network devices can be thought of as a \"middlebox\"?</p> <p>(a)&nbsp;HTTP cache<br> (b)&nbsp;HTTP load balancer<br> (c)&nbsp;Network Address Translation box<br> (d)&nbsp;WiFi base station<br> (e)&nbsp;SDN controller<br> (f)&nbsp;IP router</p>"
+    ],
+    "img": [],
+    "choices": [
+     "a, b, c",
+     "a, b, d",
+     "a, c, d",
+     "a, c ,e",
+     "b, c, d",
+     "b, d, f",
+     "c, d, e",
+     "c, d, f",
+     "d, e, f"
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 12,
+    "parts": [
+     "What protocol (or protocols) constitutes the \"thin waist\" of the Internet protocol stack? Check all that apply."
+    ],
+    "img": [],
+    "choices": [
+     "TCP",
+     "HTTP",
+     "WiFi",
+     "Ethernet",
+     "IP",
+     "DNS"
+    ],
+    "answer": [
+     4
+    ]
+   },
+   {
+    "n": 14,
+    "parts": [
+     "<p>What is meant when it is said that the Internet has an “hourglass” architecture? See the picture below if you are unfamiliar with an \"hourglass\".</p> <p>",
+     "</p>"
+    ],
+    "img": [
+     "q6-hourglass"
+    ],
+    "choices": [
+     "... after matching on the source and destination IP address in the datagram header, the action taken is to forward the datagram to the output port associated with that source and destination IP address pair.",
+     "Packets flow from top to bottom down the stack, like sand in an hour glass. Then, on the receiver side, if the hourglass is reversed, packets flow up the stack, like sand flowing in the opposite direction.",
+     "The Internet protocol stack has a “thin waist” in the middle, like an hourglass. The Internet Protocol (IP) is the only network-layer protocol in the middle layer of the stack. Every other layer has multiple protocols at that layer."
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 15,
+    "parts": [
+     "<p>Which of the following statements correctly identify the differences between routing and forwarding. Select one or more statements.</p> <p>(a)&nbsp;Routing refers to determining the route taken by packets from source to destination, and is implemented in the control plane.<br> (b)&nbsp;Routing refers to moving packets from a router’s input to appropriate router output, and is implemented in the data plane.<br> (c)&nbsp;Forwarding refers to moving packets from a router’s input to appropriate router output, and is implemented in the control plane.<br> (d)&nbsp;Forwarding refers to determining the route taken by packets from source to destination, and is implemented in the data plane.<br> (e)&nbsp;Forwarding refers to determining the route taken by packets from source to destination, and is implemented in the control plane.<br> (f)&nbsp;Routing refers to moving packets from a router’s input to appropriate router output, and is implemented in the control plane.<br> (i)&nbsp;Routing refers to determining the route taken by packets from source to destination, and is implemented in the data plane.<br> (j)&nbsp;Forwarding refers to moving packets from a router’s input to appropriate router output, and is implemented in the data plane.</p>"
+    ],
+    "img": [],
+    "choices": [
+     "a, c",
+     "a, d",
+     "a, e",
+     "a, j",
+     "b, c",
+     "b, d",
+     "b, e",
+     "b, j",
+     "f, c",
+     "f, d",
+     "f, e",
+     "f, j",
+     "i, c",
+     "i, d",
+     "i, e",
+     "i, j"
+    ],
+    "answer": [
+     3
+    ]
+   },
+   {
+    "n": 16,
+    "parts": [
+     "<p>Match the name of the approach towards implementing a control plane with a description of how Per-router control plane works.</p>"
+    ],
+    "img": [],
+    "choices": [
+     "A (typically) remote controller gathers information from routers, and then computes and installs the forwarding tables in routers.",
+     "Individual routing algorithm components - with a component operating in each and every router - interact with each other in the control plane. The individual routing algorithm component executing in a given router computes the local fowarding table fir that router.",
+     "The network operator installs forwarding tables using the Simple Network Management Protocols (SNMP)."
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 17,
+    "parts": [
+     "<p>Match the name of the approach towards implementing a control plane with a description of how Software-defined networking (SDN) works.</p>"
+    ],
+    "img": [],
+    "choices": [
+     "A (typically) remote controller gathers information from routers, and then computes and installs the forwarding tables in routers.",
+     "Individual routing algorithm components - with a component operating in each and every router - interact with each other in the control plane. The individual routing algorithm component executing in a given router computes the local fowarding table fir that router.",
+     "The network operator installs forwarding tables using the Simple Network Management Protocols (SNMP)."
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 18,
+    "parts": [
+     "<p>What is the definition of a “good” path for a routing protocol? Chose the best single answer.</p>"
+    ],
+    "img": [],
+    "choices": [
+     "A path that has little or no congestion.",
+     "A high bandwidth path.",
+     "Routing algorithms typically work with abstract link weights that could represent any of, or combinations of, all of the other answers.",
+     "A path that has a minimum number of hops.",
+     "A low delay path."
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 19,
+    "parts": [
+     "<p>Consider Dijkstra’s link-state routing algorithm that is computing a least-cost path from node a to other nodes b, c, d, e, f. Which of the following statements is true. (Refer to Section 5.2 in the text for notation.)</p> <p>(a)&nbsp;In the initialization step, the initial cost from a to each of these destinations is initialized to either the cost of a link directly connecting a to a direct neighbor, or infinity otherwise.<br> (b)&nbsp;The values computed in the vector D(v), the currently known least cost of a path from a to any node v, will never increase following an iteration.<br> (c)&nbsp;Suppose nodes b, c, and d are in the set N’. These nodes will remain in N’ for the rest of the algorithm, since the least-cost paths from a to b, c, and d are known.<br> (d)&nbsp;The values computed in the vector D(v), the currently known least cost of a path from a to any node v, will always decrease following an iteration.<br> (e)&nbsp;Following the initialization step, if nodes b and c are directly connected to a, then the least cost path to b and c will never change from this initial cost.</p>"
+    ],
+    "img": [],
+    "choices": [
+     "a, b",
+     "a, b, c",
+     "a, c, d",
+     "a, d",
+     "b, c, e",
+     "b, e",
+     "c",
+     "c, d, e",
+     "d, e"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 20,
+    "parts": [
+     "Match the name of a general approach to routing with characteristics of that approach. Centralized, global routing."
+    ],
+    "img": [],
+    "choices": [
+     "Routes change slowly over time.",
+     "An iterative process of computation, exchange of informatoin with neighbors. Routers may initially only know link costs to directly-attached neighbors.",
+     "All routers have complete topology, and link cost information.",
+     "Routing changes quickly over time."
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 21,
+    "parts": [
+     "Match the name of a general approach to routing with characteristics of that approach. Decentralized routing."
+    ],
+    "img": [],
+    "choices": [
+     "Routes change slowly over time.",
+     "An iterative process of computation, exchange of informatoin with neighbors. Routers may initially only know link costs to directly-attached neighbors.",
+     "All routers have complete topology, and link cost information.",
+     "Routing changes quickly over time."
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 22,
+    "parts": [
+     "Match the name of a general approach to routing with characteristics of that approach. Static routing."
+    ],
+    "img": [],
+    "choices": [
+     "Routes change slowly over time.",
+     "An iterative process of computation, exchange of informatoin with neighbors. Routers may initially only know link costs to directly-attached neighbors.",
+     "All routers have complete topology, and link cost information.",
+     "Routing changes quickly over time."
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 23,
+    "parts": [
+     "Match the name of a general approach to routing with characteristics of that approach. Dynamic routing."
+    ],
+    "img": [],
+    "choices": [
+     "Routes change slowly over time.",
+     "An iterative process of computation, exchange of informatoin with neighbors. Routers may initially only know link costs to directly-attached neighbors.",
+     "All routers have complete topology, and link cost information.",
+     "Routing changes quickly over time."
+    ],
+    "answer": [
+     3
+    ]
+   },
+   {
+    "n": 24,
+    "parts": [
+     "<p>Consider the graph shown below and the use of Dijkstra’s algorithm to compute a least cost path from a to all destinations. Suppose that nodes b and d have already been added to N’. What is the next node to be added to N' (refer to the text for an explanation of notation).</p> <p>",
+     "</p>"
+    ],
+    "img": [
+     "q6-dijkstra"
+    ],
+    "choices": [
+     "f",
+     "e",
+     "c"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 25,
+    "parts": [
+     "<p>Consider the graph shown below and the use of Dijkstra’s algorithm to compute a least cost path from a to all destinations. Suppose that nodes b and d have already been added to N’. What is the path cost to the next node to be added to N' (refer to the text for an explanation of notation).</p> <p>",
+     "</p>"
+    ],
+    "img": [
+     "q6-dijkstra"
+    ],
+    "choices": [
+     "7",
+     "6",
+     "5",
+     "4"
+    ],
+    "answer": [
+     3
+    ]
+   }
+  ]
+ },
+ {
+  "id": "6-2",
+  "title": "Review Questions #6-2",
+  "topic": "Chapter 5 · OSPF / BGP",
+  "by": "อ.กุลธิดา",
+  "questions": [
+   {
+    "n": 1,
+    "parts": [
+     "<p>Which best characterizes&nbsp;network-layer function(s)?&nbsp;</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Forwarding",
+     "Routing",
+     "None of the above answers",
+     "Both forwarding and routing"
+    ],
+    "answer": [
+     3
+    ]
+   },
+   {
+    "n": 2,
+    "parts": [
+     "<p>Which statement&nbsp;is <strong>incorrect</strong> about&nbsp;Dijkstra’s routing&nbsp;algorithm?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Link State",
+     "Shortest-Path",
+     "Broadcast State",
+     "Decentralized State"
+    ],
+    "answer": [
+     3
+    ]
+   },
+   {
+    "n": 4,
+    "parts": [
+     "<p>In traditional routing, how do we make routing scale?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Hierarchy -- inside the AS and between AS's.",
+     "Use SDN's."
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 5,
+    "parts": [
+     "<p>How many intra-domain and inter-domain routing protocols are in use today?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "1, 1",
+     "2, 1",
+     "1, many",
+     "many, 1"
+    ],
+    "answer": [
+     3
+    ]
+   },
+   {
+    "n": 10,
+    "parts": [
+     "<p>Consider the network shown below. Suppose AS3 and AS2 are running&nbsp;OSPF&nbsp;for their intra-AS routing protocol. Suppose AS1 and AS4 are running RIP for their intra-AS routing protocol. Suppose&nbsp;eBGP&nbsp;and&nbsp;iBGP&nbsp;are used for the inter-AS routing protocol. Assume there is&nbsp;<i>no&nbsp;</i>physical link between AS2 and AS4 (dashed line).</p> <p>",
+     "</p> <p>Router 3c learns about prefix <i>x </i>from which routing protocol?</p>"
+    ],
+    "img": [
+     "q6-as-network"
+    ],
+    "choices": [
+     "OSPF",
+     "RIP",
+     "eBGP",
+     "iBGP"
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 11,
+    "parts": [
+     "<p>Consider the scenario in question 10. &nbsp;Router 3a learns about <i>x </i>from which routing protocol?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "OSPF",
+     "RIP",
+     "eBGP",
+     "iBGP"
+    ],
+    "answer": [
+     3
+    ]
+   },
+   {
+    "n": 12,
+    "parts": [
+     "<p>Consider the scenario in question 10. &nbsp;Router 4b&nbsp;learns about <i>x </i>from which routing protocol?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "OSPF",
+     "RIP",
+     "eBGP",
+     "iBGP"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 13,
+    "parts": [
+     "<p>Consider the scenario in question 10. &nbsp;Edge weights are&nbsp;annotated in blue on the link. &nbsp;Once router 1d learns about <i>x </i>it will put an entry (<i>x</i>, <i>I</i>) in its forwarding table.&nbsp;Will <i>I </i>be equal to <i>I</i>1 or <i>I</i>2 for this entry and why?&nbsp;</p>"
+    ],
+    "img": [],
+    "choices": [
+     "I1 because iBGP determined this outgoing interface based on policy.",
+     "I1 because RIP determined this outgoing interface based on least-cost.",
+     "I2 because iBGP determined this outgoing interface based on policy.",
+     "I2 because RIP determined this outgoing interface based on least-cost."
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 14,
+    "parts": [
+     "<p>Match the terms \"interdomain routing\" with its definitions. Recall that in Internet parlance, an “AS” refers to “Autonomous System” – a network under the control of a single organization.</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Routing among routers within same AS (“network”).",
+     "Forwarding packets between two interfaces in different but adjacent subnetworks.",
+     "Routing among different ASes (“networks”).",
+     "Forwarding packets between two physically connected interfaces in a common subnetwork."
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 15,
+    "parts": [
+     "<p>Match the terms intradomain routing\" with its definitions. Recall that in Internet parlance, an “AS” refers to “Autonomous System” – a network under the control of a single organization.&nbsp;</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Routing among routers within same AS (“network”).",
+     "Forwarding packets between two interfaces in different but adjacent subnetworks.",
+     "Routing among different ASes (“networks”).",
+     "Forwarding packets between two physically connected interfaces in a common subnetwork."
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 16,
+    "parts": [
+     "<p>Check the one or more of the following statements about the OSPF protocol that are true.</p> <p>(a)&nbsp;OSFP uses a Dijkstra-like algorithm to implement least cost path routing.<br> (b)&nbsp;OSPF is an intra-domain routing protocol.<br> (c)&nbsp;OSPF is an interdomain routing protocol.<br> (d)&nbsp;The Open Shortest Path First (OSPF) Internet routing protocol implements a Bellman-Ford distance-vector routing algorithm.<br> (e)&nbsp;OSPF implements hierarchical routing</p>"
+    ],
+    "img": [],
+    "choices": [
+     "a,b,c",
+     "a,b,d",
+     "a,b,e",
+     "b,c,d",
+     "b,c,e",
+     "c,d,e",
+     "a,c,d",
+     "a,c,e",
+     "a,d,e",
+     "b,d,e"
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 17,
+    "parts": [
+     "<p>Consider the OSPF routing protocol. Which of the following characteristics are associated with OSPF (as opposed to BGP)?</p> <p>(a)&nbsp;Is an intra-domain routing protocol.<br> (b)&nbsp;Is an inter-domain routing protocol.<br> (c)&nbsp;Policy, rather than performance (e.g., least cost path), determines paths that used.<br> (d)&nbsp;Floods link state control information.<br> (e)&nbsp;Finds a least cost path from source to destination.</p>"
+    ],
+    "img": [],
+    "choices": [
+     "a,b,c",
+     "a,b,d",
+     "a,b,e",
+     "b,c,d",
+     "b,c,e",
+     "c,d,e",
+     "a,c,d",
+     "a,c,e",
+     "a,d,e",
+     "b,d,e"
+    ],
+    "answer": [
+     8
+    ]
+   },
+   {
+    "n": 18,
+    "parts": [
+     "<p>Among the following protocols, terminology or considerations, indicate those that are associated with \"routing within a single network (typically owned and operated by one organization).\"</p> <p>(a)&nbsp;OSPF<br> (b)&nbsp;inter-AS routing<br> (c)&nbsp;inter-domain routing<br> (d)&nbsp;Driven more by routing policy than end-end routing performance<br> (e)&nbsp;BGP<br> (f)&nbsp;intra-AS routing<br> (g)&nbsp;intra-domain routing<br> (h)&nbsp;Driven more by performance than by routing policy</p>"
+    ],
+    "img": [],
+    "choices": [
+     "a,b,c,d",
+     "a,b,c,h",
+     "a,f,g,d",
+     "a,f,g,h",
+     "e,b,c,d",
+     "e,b,c,h",
+     "e,f,g,d",
+     "e,f,g,h"
+    ],
+    "answer": [
+     3
+    ]
+   },
+   {
+    "n": 19,
+    "parts": [
+     "<p>Suppose a provider network only wants to carry traffic to/from its customer networks (i.e., to provide no transit service), and customer networks only want to carry traffic to/from itself. Consider the figure below. To implement this policy, to which of the following networks would network C not advertise the path Cy?</p> <p>",
+     "</p>"
+    ],
+    "img": [
+     "q6-bgp-policy"
+    ],
+    "choices": [
+     "w",
+     "x",
+     "A",
+     "B"
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 20,
+    "parts": [
+     "<p>Again, suppose a provider network only wants to carry traffic to/from its customer networks (i.e., to provide no transit service), and customer networks only want to carry traffic to/from itself. Suppose C has advertised path Cy to A. To implement this policy, to which of the following networks would network A advertise the path ACy?</p> <p>",
+     "</p>"
+    ],
+    "img": [
+     "q6-bgp-policy"
+    ],
+    "choices": [
+     "C",
+     "w",
+     "x",
+     "B"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 21,
+    "parts": [
+     "<p>Again, suppose a provider network only wants to carry traffic to/from its customer networks (i.e., to provide no transit service), and customer networks only want to carry traffic to/from itself. Suppose C has advertised path Cy to x. To implement this policy, to which of the following networks would network x advertise the path xCy?</p> <p>",
+     "</p>"
+    ],
+    "img": [
+     "q6-bgp-policy"
+    ],
+    "choices": [
+     "A",
+     "C",
+     "None of these other networks",
+     "B",
+     "w"
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 22,
+    "parts": [
+     "<p>Consider routers 2c and 2d in Autonomous System AS2 in the figure below. Indicate the flavor of BGP and the router from which each of 2c and 2d learns about the path to destination x. How does router 2c learn of the path AS3, X to destination network X?</p> <p>",
+     "</p>"
+    ],
+    "img": [
+     "q6-ebgp-ibgp"
+    ],
+    "choices": [
+     "From 2c via eBGP.",
+     "From x via eBGP.",
+     "From 2c via iBGP.",
+     "From 3a via iBGP.",
+     "From 3a via eBGP."
+    ],
+    "answer": [
+     4
+    ]
+   },
+   {
+    "n": 23,
+    "parts": [
+     "<p>Consider routers 2c and 2d in Autonomous System AS2 in the figure below. Indicate the flavor of BGP and the router from which each of 2c and 2d learns about the path to destination x. How does router 2d learn of the path AS3, X to destination network X?</p> <p>",
+     "</p>"
+    ],
+    "img": [
+     "q6-ebgp-ibgp"
+    ],
+    "choices": [
+     "From 2c via eBGP.",
+     "From x via eBGP.",
+     "From 2c via iBGP.",
+     "From 3a via iBGP.",
+     "From 3a via eBGP."
+    ],
+    "answer": [
+     2
+    ]
+   }
+  ]
+ },
+ {
+  "id": "7-1",
+  "title": "Review Questions #7-1",
+  "topic": "Chapter 5 · SDN / ICMP / SNMP",
+  "by": "อ.ดวงดาว",
+  "questions": [
+   {
+    "n": 1,
+    "parts": [
+     "<p>Which statement is <strong>correct </strong>about SDN controllers? &nbsp;</p>"
+    ],
+    "img": [],
+    "choices": [
+     "The OpenFlow protocol is used to support the northbound API.",
+     "If you want to implement a new routing protocol, you can implement it using the southbound API.",
+     "ICMP, SNMP and NetConf is used in traditional IP networks, and, therefore, is not supported by SDN controllers.",
+     "The controller sends messages to network devices via the southbound API."
+    ],
+    "answer": [
+     3
+    ]
+   },
+   {
+    "n": 2,
+    "parts": [
+     "<p>Does it make sense to run a distance vector routing algorithm in a network that uses a centralized controller?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Yes, any routing protocol can be run on an SDN.",
+     "No, that makes no sense."
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 3,
+    "parts": [
+     "<p>What is the benefit of a logically centralized control plane?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Can support multi-path routing",
+     "Can “program” routers",
+     "Non-proprietary solution",
+     "All of the above answers"
+    ],
+    "answer": [
+     3
+    ]
+   },
+   {
+    "n": 4,
+    "parts": [
+     "<p>Capture packets using wireshark while running a&nbsp;traceroute&nbsp;to&nbsp;172.217.27.228. &nbsp;Which ICMP message(s) are leveraged by traceroute? &nbsp;</p> <p>A.&nbsp;ICMP echo reply</p> <p>B.&nbsp;ICMP destination port unreachable</p> <p>C.&nbsp;ICMP TTL expired (exceeded)</p> <p>D.&nbsp;ICMP bad IP header</p> <p>E.&nbsp;ICMP network unreachable</p>"
+    ],
+    "img": [],
+    "choices": [
+     "A, B",
+     "B, C",
+     "C, D",
+     "D, E"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 5,
+    "parts": [
+     "<p>Should SNMP \"get\"&nbsp;run over which transport protocol?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "TCP",
+     "UDP",
+     "NETCONF",
+     "QUIC"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 6,
+    "parts": [
+     "<p>What is NOT the main concept of SDN?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "The separation of data plane from control plane",
+     "The programmable network",
+     "The network function virtualization",
+     "The use of generalized flow-based forwarding table"
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 7,
+    "parts": [
+     "<p>What is <strong>incorrect</strong> about SDN?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Routers and switches are in the data plane",
+     "Flow tables are calculated by the SDN controller",
+     "SDN controller is known as the network operating system",
+     "OpenFlow is a standard protocol used by the SDN controller to communicate with the data plane"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 8,
+    "parts": [
+     "<p>Which component is the brain of a SDN?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "The network control applications",
+     "The SDN controller",
+     "OpenFlow",
+     "ONOS"
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 9,
+    "parts": [
+     "<p>What is <strong>not </strong>an example of a SDN controller?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "ODL",
+     "ONOS",
+     "Faucet",
+     "Ryu",
+     "Google ORION",
+     "FloodLight",
+     "ONF"
+    ],
+    "answer": [
+     6
+    ]
+   },
+   {
+    "n": 10,
+    "parts": [
+     "<p>Besides traceroute, which program in the following that also utilizes ICMP messages?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "wireshark",
+     "ping",
+     "dig",
+     "DHCP server discovery"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 11,
+    "parts": [
+     "<p>What is incorrect about ICMP</p>"
+    ],
+    "img": [],
+    "choices": [
+     "ICMP utilizes UDP",
+     "ICMP is within the network layer",
+     "ICMP does not run over TCP",
+     "ICMP is encapsulated within IP datagram"
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 12,
+    "parts": [
+     "<p>What is correct about SNMP?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "SNMP is in the same layer as HTTP, SMTP",
+     "SNMP runs over TCP/IP",
+     "SNMP is independent of the Internet protocol stack",
+     "SNMP adopts YANG as its data model for communication among devices"
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 13,
+    "parts": [
+     "<p>What is not in the SDN controller?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "A routing algorithm",
+     "The like states",
+     "The network topology",
+     "The ports' statistics"
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 14,
+    "parts": [
+     "<p>What is YANG?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "A data modeling language used by NETCONF",
+     "A specification of network topology",
+     "The virtualization of network in XML format",
+     "A specific example of RPC"
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 15,
+    "parts": [
+     "<p>What is NOT&nbsp;the benefit&nbsp;of SDN?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Traffic engineering",
+     "Network virtualization",
+     "Load balancing",
+     "Network monitoring",
+     "All choices are benefits of SDN"
+    ],
+    "answer": [
+     4
+    ]
+   },
+   {
+    "n": 16,
+    "parts": [
+     "<p>What is not the benefit of using NETCONF for network management?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Emphasize on multi-device configuration management with transaction",
+     "Secure with authentication and authorization",
+     "Use YANG data model, hence, reduce faults from manual configuration errors",
+     "Fast with UDP protocol"
+    ],
+    "answer": [
+     3
+    ]
+   }
+  ]
+ },
+ {
+  "id": "7-2",
+  "title": "Review Questions #7-2",
+  "topic": "Chapter 6 · MAC / Error detection",
+  "by": "อ.ดวงดาว",
+  "questions": [
+   {
+    "n": 1,
+    "parts": [
+     "<p>Which MAC protocol allows collisions?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Channel partitioning",
+     "Random access",
+     "Taking turns",
+     "TCP"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 2,
+    "parts": [
+     "<p>Which protocol is not a random access MAC protocol?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "ALOHA",
+     "slotted ALOHA",
+     "TDMA",
+     "CSMA/CD"
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 3,
+    "parts": [
+     "<p>How many bits are there in a MAC address?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "24 bits",
+     "32 bits",
+     "48 bits",
+     "64 bits"
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 4,
+    "parts": [
+     "<p>Which organization has a responsibility to allocate MAC address?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "ICANN",
+     "IEEE",
+     "ACM",
+     "ISOC"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 5,
+    "parts": [
+     "<p>Which of the following is not random MAC protocol ?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "CSMA/CD",
+     "ALOHA",
+     "Token passing",
+     "Slotted ALOHA"
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 6,
+    "parts": [
+     "<p>Which one is not advantage of using Slotted ALOHA ?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Simple",
+     "Highly decentralized",
+     "Can transmit at full rate of channel",
+     "Idle slot"
+    ],
+    "answer": [
+     3
+    ]
+   },
+   {
+    "n": 7,
+    "parts": [
+     "<p>What is advantage of random MAC protocol ?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Efficient at low load",
+     "Efficient at high load",
+     "No collision",
+     "Centralized"
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 8,
+    "parts": [
+     "<p>Which one is the characteristic of token passing ?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Polling overhead",
+     "Require one token",
+     "Frequent collision",
+     "All choices are correct"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 9,
+    "parts": [
+     "<p>Which Ethernet physical topology is the most popular in contemporary networks?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "bus",
+     "switch",
+     "both of them",
+     "none of them"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 10,
+    "parts": [
+     "<p>What is wrong?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Ethernet switch is transparent.",
+     "Ethernet switch uses CSMA/CA.",
+     "Ethernet switch is plug-and-play.",
+     "Ethernet switch is self-learning."
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 11,
+    "parts": [
+     "<p>",
+     "</p>  <p>Which choice has error in the highlighted data bit assuming we are using the two-dimensional bit with even parity and the bold digits are the row- and column- parity bits&nbsp;</p>"
+    ],
+    "img": [
+     "q7-parity-2d"
+    ],
+    "choices": [
+     "A",
+     "B",
+     "C",
+     "D"
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 12,
+    "parts": [
+     "<p>If polynomial generator G pattern is 1110&nbsp;and the data bits D is 1010101, which choice shows the correct finding of CRC bits?</p> <p>",
+     "</p>"
+    ],
+    "img": [
+     "q7-crc"
+    ],
+    "choices": [
+     "A",
+     "B",
+     "C",
+     "D"
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 13,
+    "parts": [
+     "<p>if polynomial equation of generator G is X<sup>4</sup> + X<sup>2</sup>, what is the bif pattern of G?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "10100",
+     "01011",
+     "11000",
+     "10101"
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 14,
+    "parts": [
+     "<p>if polynomial equation of G is X<sup>7</sup> +X<sup>6 </sup>+ X<sup>1</sup> + 1, how many CRC bits will be?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "8",
+     "7",
+     "6",
+     "5"
+    ],
+    "answer": [
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "8-1",
+  "title": "Review Questions #8-1",
+  "topic": "Chapter 6 · ARP / MAC addressing",
+  "by": "อ.กุลวดี",
+  "questions": [
+   {
+    "n": 1,
+    "parts": [
+     "<p>",
+     "</p> <p>Use this figure and scenario&nbsp;for questions 1-8. &nbsp;The IP and MAC addresses are shown for nodes A, B, C and D, as well as for the router's interfaces.</p> <p>Consider an IP datagram being sent from node&nbsp;A&nbsp;to node&nbsp;B.</p> <p>What is the source mac address at point&nbsp;1?</p>"
+    ],
+    "img": [
+     "q8-mac-ip"
+    ],
+    "choices": [
+     "128.119.216.254",
+     "6A-FD-80-54-06-4A",
+     "128.119.104.154",
+     "04-73-C6-9D-A5-A8",
+     "128.119.104.245",
+     "6D-89-A1-D4-3A-10",
+     "CE-63-FE-30-E9-62",
+     "128.119.216.200"
+    ],
+    "answer": [
+     5
+    ]
+   },
+   {
+    "n": 2,
+    "parts": [
+     "<p>From question 1, what is the destination mac address at point&nbsp;1?&nbsp;</p>"
+    ],
+    "img": [],
+    "choices": [
+     "128.119.104.154",
+     "128.119.104.245",
+     "6A-FD-80-54-06-4A",
+     "04-73-C6-9D-A5-A8",
+     "128.119.216.254",
+     "CE-63-FE-30-E9-62",
+     "6D-89-A1-D4-3A-10",
+     "128.119.216.200"
+    ],
+    "answer": [
+     3
+    ]
+   },
+   {
+    "n": 3,
+    "parts": [
+     "<p>From question 1, what is the source IP address at point&nbsp;1?&nbsp;</p>"
+    ],
+    "img": [],
+    "choices": [
+     "128.119.216.254",
+     "04-73-C6-9D-A5-A8",
+     "6D-89-A1-D4-3A-10",
+     "6A-FD-80-54-06-4A",
+     "CE-63-FE-30-E9-62",
+     "128.119.104.154",
+     "128.119.216.200",
+     "128.119.104.245"
+    ],
+    "answer": [
+     5
+    ]
+   },
+   {
+    "n": 4,
+    "parts": [
+     "<p>From question 1,&nbsp;what is the destination IP address at point&nbsp;1?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "6A-FD-80-54-06-4A",
+     "6D-89-A1-D4-3A-10",
+     "128.119.216.200",
+     "128.119.104.154",
+     "CE-63-FE-30-E9-62",
+     "128.119.216.254",
+     "128.119.104.245",
+     "04-73-C6-9D-A5-A8"
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 5,
+    "parts": [
+     "<p>From question 1, do the source and destination MAC&nbsp;addresses change at point&nbsp;2?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "yes",
+     "no"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 6,
+    "parts": [
+     "<p>From question 1, do the source and destination MAC addresses change at point 3?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "no",
+     "yes"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 7,
+    "parts": [
+     "<p>From question 1, what is the source MAC&nbsp;address at point&nbsp;3?&nbsp;</p>"
+    ],
+    "img": [],
+    "choices": [
+     "6A-FD-80-54-06-4A",
+     "04-73-C6-9D-A5-A8",
+     "6D-89-A1-D4-3A-10",
+     "128.119.216.200",
+     "CE-63-FE-30-E9-62",
+     "128.119.104.154",
+     "128.119.216.254",
+     "128.119.104.245"
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 8,
+    "parts": [
+     "<p>From question 1, what is the destination MAC&nbsp;address at point&nbsp;3?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "CE-63-FE-30-E9-62",
+     "128.119.104.154",
+     "6D-89-A1-D4-3A-10",
+     "128.119.216.254",
+     "6A-FD-80-54-06-4A",
+     "128.119.104.245",
+     "04-73-C6-9D-A5-A8",
+     "128.119.216.200"
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 9,
+    "parts": [
+     "<p>Use this figure for questions 9-10.&nbsp; Consider that C wants to send a datagram to D.&nbsp; But C only knows D's IP address.&nbsp; C needs to send an ARP request for D.&nbsp; What are the source and destination addresses in the ARP request frame?</p> <p>",
+     "</p>"
+    ],
+    "img": [
+     "q8-mac-ip"
+    ],
+    "choices": [
+     "128.119.116.170, 128.119.116.184",
+     "3D-CF-OC-2E-15-A8, FF-FF-FF-FF-FF-FF",
+     "3D-CF-OC-2E-15-A8, F3-AA-E1-4B-57-68",
+     "3D-CF-OC-2E-15-A8, 63-1F-C7-F2-43-AB",
+     "128.119.116.170, 128.119.116.77",
+     "128.119.116.170, 255.255.255.255"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 10,
+    "parts": [
+     "<p>From question 9, what are the source and destination addresses in the ARP response frame?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "128.119.116.184, 255.255.255.255",
+     "63-1F-C7-F2-43-AB, 3D-CF-OC-2E-15-A8",
+     "F3-AA-E1-4B-57-68, 3D-CF-OC-2E-15-A8",
+     "255.255.255.255, 128.119.116.170",
+     "63-1F-C7-F2-43-AB, FF-FF-FF-FF-FF-FF",
+     "FF-FF-FF-FF-FF-FF, 3D-CF-OC-2E-15-A8",
+     "128.119.116.77, 128.119.116.170",
+     "128.119.116.184, 128.119.116.170"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 11,
+    "parts": [
+     "<p>We've now learned about both IPv4 addresses and MAC addresses.&nbsp; Consider the address properties below. &nbsp;Which of these properties is&nbsp;a property of MAC addresses?</p> <p>A.&nbsp;This is a 48-bit address.</p> <p>B. This is a 128-bit address.</p> <p>C. This address remains the same as a host moves from one network to another.</p> <p>D. This is a network-layer address.</p> <p>E. This address is allocated by DHCP.</p> <p>F. This is a 32-bit address.</p> <p>G. This address must be unique among all hosts in a subnet.</p> <p>H. This is a link-layer address.</p>"
+    ],
+    "img": [],
+    "choices": [
+     "A, G, H",
+     "A, C, E, G, H",
+     "A, D, E",
+     "A, C, G, H",
+     "A, E, H",
+     "B, D, E, G",
+     "D, F, G"
+    ],
+    "answer": [
+     3
+    ]
+   }
+  ]
+ },
+ {
+  "id": "8-2",
+  "title": "Review Questions #8-2",
+  "topic": "Chapter 6 · Switch / VLAN / Data center",
+  "by": "อ.กุลวดี",
+  "questions": [
+   {
+    "n": 1,
+    "parts": [
+     "<p>Use this figure for questions 1-2. &nbsp;Consider the LAN below consisting of 10 computers connected by two self-learning Ethernet switches. At t=0 the switch table entries for both switches are empty. At t=1, B sends a UDP datagram to A, and A responds immediately. &nbsp;What values are in the switch table on the switch on the left after A responds? &nbsp;Assume the TTL is 600 seconds.",
+     "</p>"
+    ],
+    "img": [
+     "q8-two-switches"
+    ],
+    "choices": [
+     "B,8,600",
+     "B,8,600 and A,8,600",
+     "A,1,600",
+     "B,2,600",
+     "A,8,600",
+     "B,2,600 and A,1,600"
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 2,
+    "parts": [
+     "<p>From question 1, say at time t=2, L sends a datagram to J and J responds immediately. &nbsp;What new values (with respect to question 1) show up in the switch table in the left switch after J responds? &nbsp;Assume the TTL is 600 seconds.</p>"
+    ],
+    "img": [],
+    "choices": [
+     "L, 15, 600 and J, 13, 600",
+     "L, 7, 600",
+     "J, 7, 600",
+     "L, 15, 600",
+     "L, 7, 600 and J, 7, 600",
+     "J, 13, 600"
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 3,
+    "parts": [
+     "<p>Which of these statements are true?</p>  <p>A. A self-learning switch never forgets a self-learned association of a MAC address x and switch port y.</p>  <p>B. A self learning switch associates the source MAC address on an incoming frame with the port on which it arrived, and stores this matching in a table.&nbsp; The switch has now learned the port that leads to that MAC address.</p>  <p>C. A self-learning switch frees a network manager from a least one configuration task that might be associated with managing a switch</p>  <p>D. A self-learning switch will age-out (forget) a self-learned association of a MAC address x and switch port y if it doesn’t see a frame with MAC address x incoming on switch port y after some amount of time.</p>"
+    ],
+    "img": [],
+    "choices": [
+     "only A",
+     "B, D",
+     "only B",
+     "C, D",
+     "only D",
+     "B, C, D",
+     "A, B, C",
+     "B, C",
+     "only C"
+    ],
+    "answer": [
+     5
+    ]
+   },
+   {
+    "n": 4,
+    "parts": [
+     "<p>Suppose an Ethernet frame arrives to an Ethernet switch, and the Ethernet switch does not know which of its switch ports leads to the node with the given destination MAC address?&nbsp; In this case, what does the switch do?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "Flood the frame on all ports except the port on which the frame arrived.",
+     "Use the address resolution protocol (ARP) to determine the appropriate outgoing port.",
+     "Drop the frame without forwarding it.",
+     "Choose a port randomly and forward the frame there."
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 5,
+    "parts": [
+     "<p>Consider these&nbsp;VLANs&nbsp;in a university network. &nbsp;There are 3&nbsp;VLANs, blue, green, and orange. &nbsp;Hosts in each&nbsp;VLAN&nbsp;are highlighted in the&nbsp;corresponding colors. &nbsp;Interfaces on the switches are labeled in red in the picture.&nbsp;Consider port 1 on S4. &nbsp;What best describes this port?</p> <p>",
+     "</p>"
+    ],
+    "img": [
+     "q8-vlan"
+    ],
+    "choices": [
+     "Trunk port",
+     "Hot swap port",
+     "Input port",
+     "Output port",
+     "Carrier port"
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 6,
+    "parts": [
+     "<p>Consider the VLAN network in question 5. &nbsp;Suppose before all events, all switch tables are empty.&nbsp; Interfaces on the switches are labeled in red in the picture.&nbsp; Then according to the picture, suppose C sends a frame to I.&nbsp; After I responds back to C, what values are in S2's switch table?</p> <ol><li>C, 0, some&nbsp;TTL</li> <li>D, 1, some TTL</li> <li>E, 2, some TTL</li> <li>F, 3, some TTL</li> <li>I, 0, some TTL</li> <li>S4, 0, some TTL</li> </ol>"
+    ],
+    "img": [],
+    "choices": [
+     "1, 2, 3, 4, 5, 6",
+     "Nothing",
+     "1, 6",
+     "1, 5, 6",
+     "1",
+     "1, 5"
+    ],
+    "answer": [
+     1
+    ]
+   },
+   {
+    "n": 7,
+    "parts": [
+     "<p>Consider this datacenter network. &nbsp;Which element is a border router?",
+     "</p>"
+    ],
+    "img": [
+     "q8-datacenter"
+    ],
+    "choices": [
+     "A",
+     "B",
+     "D",
+     "C"
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 8,
+    "parts": [
+     "<p>From the datacenter network is question 7, which element is&nbsp;a&nbsp;layer 2 switch?</p>"
+    ],
+    "img": [],
+    "choices": [
+     "A, B, C, D",
+     "D",
+     "B, C, D",
+     "B",
+     "C",
+     "A",
+     "B, C"
+    ],
+    "answer": [
+     2
+    ]
+   },
+   {
+    "n": 9,
+    "parts": [
+     "<p>Suppose a student turns on&nbsp;their notebook computer, connects it to Chula's wifi network, opens their browser,&nbsp;requests a webpage from&nbsp;www.eng.chula.ac.th which is located in a data center on the Chula network, and receives a response. &nbsp;Which protocols are&nbsp;involved in this process? &nbsp;Assume all caches on all devices are initially empty.</p> <ol><li>DNS</li> <li>HTTP</li> <li>SNMP</li> <li>DHCP</li> <li>UDP</li> <li>TCP</li> <li>BGP</li> <li>IP</li> <li>CSMA/CA</li> <li>CSMA/CD</li> <li>ARP</li> </ol>"
+    ],
+    "img": [],
+    "choices": [
+     "1, 2, 4, 5, 6, 8, 9, 10, 11",
+     "1, 2, 4, 5, 6, 8",
+     "2",
+     "1, 2",
+     "all of the above"
+    ],
+    "answer": [
+     0
+    ]
+   },
+   {
+    "n": 10,
+    "parts": [
+     "<p>From question 9, what is the first application-layer protocol sent from the student's notebook computer?</p> <ol><li>DNS</li> <li>HTTP</li> <li>SNMP</li> <li>DHCP</li> <li>UDP</li> <li>TCP</li> <li>BGP</li> <li>IP</li> <li>CSMA/CA</li> <li>CSMA/CD</li> <li>ARP</li> </ol>"
+    ],
+    "img": [],
+    "choices": [
+     "11",
+     "6",
+     "5",
+     "1",
+     "2",
+     "8",
+     "3",
+     "7",
+     "9",
+     "4",
+     "10"
+    ],
+    "answer": [
+     9
+    ]
+   },
+   {
+    "n": 11,
+    "parts": [
+     "<p>From question 9, what is the first transport-layer protocol sent from the student's notebook computer?</p> <ol><li>DNS</li> <li>HTTP</li> <li>SNMP</li> <li>DHCP</li> <li>UDP</li> <li>TCP</li> <li>BGP</li> <li>IP</li> <li>CSMA/CA</li> <li>CSMA/CD</li> <li>ARP</li> </ol>"
+    ],
+    "img": [],
+    "choices": [
+     "3",
+     "6",
+     "1",
+     "2",
+     "10",
+     "5",
+     "9",
+     "8",
+     "11",
+     "7",
+     "4"
+    ],
+    "answer": [
+     5
+    ]
+   },
+   {
+    "n": 12,
+    "parts": [
+     "<p>From question 9, what is the last application-layer protocol sent from the student's notebook computer?</p> <ol><li>DNS</li> <li>HTTP</li> <li>SNMP</li> <li>DHCP</li> <li>UDP</li> <li>TCP</li> <li>BGP</li> <li>IP</li> <li>CSMA/CA</li> <li>CSMA/CD</li> <li>ARP</li> </ol>"
+    ],
+    "img": [],
+    "choices": [
+     "8",
+     "11",
+     "4",
+     "9",
+     "2",
+     "6",
+     "3",
+     "5",
+     "7",
+     "10",
+     "1"
+    ],
+    "answer": [
+     4
+    ]
+   },
+   {
+    "n": 13,
+    "parts": [
+     "<p>From question 9, what is the link layer protocol used by the student's notebook computer?</p> <ol><li>DNS</li> <li>HTTP</li> <li>SNMP</li> <li>DHCP</li> <li>UDP</li> <li>TCP</li> <li>BGP</li> <li>IP</li> <li>CSMA/CA</li> <li>CSMA/CD</li> <li>ARP</li> </ol>"
+    ],
+    "img": [],
+    "choices": [
+     "2",
+     "3",
+     "1",
+     "11",
+     "10",
+     "9",
+     "4",
+     "5",
+     "6",
+     "8",
+     "7"
+    ],
+    "answer": [
+     3,
+     5
+    ]
+   },
+   {
+    "n": 14,
+    "parts": [
+     "<p>From question 9, what is the link layer protocol used by the web server?</p> <ol><li>DNS</li> <li>HTTP</li> <li>SNMP</li> <li>DHCP</li> <li>UDP</li> <li>TCP</li> <li>BGP</li> <li>IP</li> <li>CSMA/CA</li> <li>CSMA/CD</li> <li>ARP</li> </ol>"
+    ],
+    "img": [],
+    "choices": [
+     "1",
+     "7",
+     "5",
+     "10",
+     "11",
+     "3",
+     "2",
+     "8",
+     "9",
+     "4",
+     "6"
+    ],
+    "answer": [
+     3,
+     4
+    ]
+   }
+  ]
+ }
+]

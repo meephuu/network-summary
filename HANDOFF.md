@@ -10,6 +10,7 @@
 | 5 | `control-plane` | Network Layer: Control Plane | Chapter_5_v9.0_extended.pdf | ✅ |
 | 6 | `link-layer` | Link Layer and LANs | Chapter_6_v9.0_extended.pdf | ✅ |
 | C | `cheat-sheet` | Cheat Sheet | ทุกบท | ✅ |
+| Q | `quiz` | Quiz: Review Questions #5–8 | myCourseVille worksheet | ✅ |
 
 ## ตั้งค่า
 
@@ -24,6 +25,8 @@
 - 2026-11-21: สร้างเว็บจาก template ครบ 3 บท + cheat sheet · widget 25 ตัว (รายการใน README) · รูปครอปจากสไลด์ 16 รูป
 - ตัวเลขในเครื่องมือตรวจกับสไลด์แล้ว: ตาราง Dijkstra กราฟหลัก (ตรงทุกแถว รวมการเลือก y ก่อน v), CRC 101110/1001 → 011 และ 100100/1101 → 001, fragmentation 4000/1500 → 0/185/370, checksum ตัวอย่างสไลด์, DV ของ b ที่ t=1
 - ควิซท้ายบทเป็นโจทย์แต่งเอง คำนวณตรวจแล้ว
+
+- 2026-11-22: เพิ่มหน้า Quiz (`#/quiz`) ลอก Review Questions #5, #6-1, #6-2, #7-1, #7-2, #8-1, #8-2 จาก myCourseVille ครบ 117 ข้อ + รูป 15 รูป (`src/assets/quiz/`) · ข้อมูลอยู่ `src/chapters/quiz/questions.json` (เฉลย = Correct Answer ในระบบ, 8-2 ข้อ 13/14 รับได้ 2 คำตอบ) · component `src/components/quiz/Quiz.tsx` (QuizOverview, QuizSet) จำคำตอบใน localStorage `network-final:quiz`
 
 ## ไอเดียที่ยังไม่ทำ
 

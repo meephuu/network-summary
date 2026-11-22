@@ -24,6 +24,7 @@ import { SubnetCalc } from '../net/SubnetCalc'
 import { SwitchLearning } from '../net/SwitchLearning'
 import { TracerouteSim } from '../net/TracerouteSim'
 import { WebRequest } from '../net/WebRequest'
+import { QuizOverview, QuizSet } from '../quiz/Quiz'
 import { Callout, Def, Example, Tip, Warn } from './Callout'
 import { Compare, CompareItem } from './Compare'
 import { Figure } from './Figure'
@@ -72,4 +73,7 @@ export const mdxComponents: MDXComponents = {
   EthernetFrame,
   SwitchLearning,
   WebRequest,
+  // quiz page
+  QuizOverview,
+  QuizSet,
 }
