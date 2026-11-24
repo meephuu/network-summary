@@ -28,6 +28,8 @@
 
 - 2026-11-22: เพิ่มหน้า Quiz (`#/quiz`) ลอก Review Questions #5, #6-1, #6-2, #7-1, #7-2, #8-1, #8-2 จาก myCourseVille ครบ 117 ข้อ + รูป 15 รูป (`src/assets/quiz/`) · ข้อมูลอยู่ `src/chapters/quiz/questions.json` (เฉลย = Correct Answer ในระบบ, 8-2 ข้อ 13/14 รับได้ 2 คำตอบ) · component `src/components/quiz/Quiz.tsx` (QuizOverview, QuizSet) จำคำตอบใน localStorage `network-final:quiz`
 
+- 2026-11-24: เพิ่มช่องค้นหาในหน้า (`src/components/layout/PageSearch.tsx`) มุมขวาบน · เปิดด้วยปุ่ม / Ctrl+F / `/` · Enter = ถัดไป, Shift+Enter = ก่อนหน้า, Esc = ปิด · กด Ctrl+F ซ้ำตอนอยู่ในช่อง = find ของเบราว์เซอร์ · ไฮไลต์ด้วย CSS Custom Highlight API (สีใน `global.css`) · ค้นใน `<Solution>` ที่ปิดอยู่ด้วยแล้วกางให้อัตโนมัติ
+
 ## ไอเดียที่ยังไม่ทำ
 
 - widget BGP route selection / hot potato แบบเลือก gateway เองได้

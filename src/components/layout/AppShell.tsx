@@ -4,6 +4,7 @@ import { useAutoHideScrollbar, type Heading } from '../../lib/hooks'
 import { ChapterMenu } from './ChapterMenu'
 import { floatingPanel, site } from '../../site.config'
 import { FloatingPanel } from '../panel/FloatingPanel'
+import { PageSearch } from './PageSearch'
 import { ReadingProgress } from './ReadingProgress'
 import { TableOfContents } from './TableOfContents'
 import styles from './AppShell.module.css'
@@ -67,6 +68,7 @@ export function AppShell({ chapter, headings, children }: Props) {
     return () => window.removeEventListener('keydown', onKey)
   }, [])
   const sidebarRef = useRef<HTMLElement>(null)
+  const mainRef = useRef<HTMLElement>(null)
   useAutoHideScrollbar(sidebarRef)
   useAutoHideScrollbar('document')
 
@@ -122,8 +124,9 @@ export function AppShell({ chapter, headings, children }: Props) {
       )}
       <div className={`${styles.layout} ${collapsed ? styles.collapsed : ''}`}>
         <aside ref={sidebarRef} className={`${styles.sidebar} ${open ? styles.open : ''}`}>{sidebar}</aside>
-        <main className={styles.main}>{children}</main>
+        <main ref={mainRef} className={styles.main}>{children}</main>
       </div>
+      <PageSearch root={mainRef} pageKey={chapter.id} />
       {floatingPanel && <FloatingPanel {...floatingPanel} />}
     </>
   )
